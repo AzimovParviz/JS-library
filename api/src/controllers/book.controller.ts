@@ -11,13 +11,15 @@ export const createBook = async (
   next: NextFunction
 ) => {
   try {
-    const { name, publishedYear, ISBN, author } = req.body
+    const { name, publishedYear, ISBN, author, description, genres } = req.body
 
     const book = new Book({
       name,
       publishedYear,
       ISBN,
       author,
+      description,
+      genres,
     })
 
     await bookService.create(book)

@@ -1,16 +1,10 @@
 import mongoose, { Document } from 'mongoose'
-
-export type BookDocument = Document & {
-  name: string
-  publishedYear: number
-  genres: string[]
-  ISBN: string
-  author: string
-}
+import { BookDocument } from '../types'
 
 const bookSchema = new mongoose.Schema({
   name: {
     type: String,
+    required: true,
     index: true,
   },
   ISBN: {
@@ -21,10 +15,16 @@ const bookSchema = new mongoose.Schema({
   publishedYear: {
     type: Number,
     required: true,
-    min: 1900,
   },
   genres: [String],
-  author: String,
+  author: {
+    type: String,
+    required: true,
+  },
+  description: String,
+  borrowerID: mongoose.Schema.Types.ObjectId,
+  borrowDate: Date,
+  returnDate: Date,
 })
 
 export default mongoose.model<BookDocument>('Book', bookSchema)
