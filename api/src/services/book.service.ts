@@ -15,6 +15,16 @@ const findById = async (bookId: string): Promise<BookDocument> => {
   return foundBook
 }
 
+const findByISBN = async (ISBN: string): Promise<BookDocument> => {
+  const foundBook = await Book.findOne({ ISBN: ISBN })
+
+  if (!foundBook) {
+    throw new NotFoundError(`Book ISBN ${ISBN} not found`)
+  }
+
+  return foundBook
+}
+
 const findAll = async (): Promise<BookDocument[]> => {
   return Book.find().sort({ name: 1, publishedYear: -1 })
 }
@@ -47,6 +57,7 @@ const deleteBook = async (bookId: string): Promise<BookDocument | null> => {
 export default {
   create,
   findById,
+  findByISBN,
   findAll,
   update,
   deleteBook,

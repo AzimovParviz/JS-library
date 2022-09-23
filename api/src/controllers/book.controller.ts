@@ -88,6 +88,23 @@ export const findById = async (
   }
 }
 
+//GET /books/ISBN/:ISBN
+export const findByISBN = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.json(await bookService.findByISBN(req.params.ISBN))
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', 400, error))
+    } else {
+      next(error)
+    }
+  }
+}
+
 // GET /books
 export const findAll = async (
   req: Request,
