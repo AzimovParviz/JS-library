@@ -4,6 +4,7 @@ export type UserDocument = Document & {
   firstName: string
   lastName: string
   email: string
+  borrowedBooks: mongoose.Schema.Types.ObjectId[]
 }
 
 const userSchema = new mongoose.Schema({
@@ -17,6 +18,9 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+  },
+  borrowedBooks: {
+    type: [mongoose.Schema.Types.ObjectId],
   },
 })
 
