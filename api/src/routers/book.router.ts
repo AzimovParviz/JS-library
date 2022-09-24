@@ -7,6 +7,7 @@ import {
   deleteBook,
   findAll,
   updateBook,
+  findByBorrower,
 } from '../controllers/book.controller'
 
 const router = express.Router()
@@ -15,6 +16,7 @@ const router = express.Router()
 router.get('/', findAll)
 router.get('/:bookId', findById)
 router.get('/ISBN/:ISBN', findByISBN)
+router.get('/borrowed/:userId', findByBorrower)
 router.put('/:bookId', updateBook)
 router.delete('/:bookId', deleteBook)
 router.post('/', createBook)
