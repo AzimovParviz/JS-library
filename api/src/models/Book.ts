@@ -1,4 +1,10 @@
 import mongoose, { Document } from 'mongoose'
+
+enum bookStatus {
+  available = 'available',
+  borrowed = 'borrowed',
+}
+
 export type BookDocument = Document & {
   name: string
   publishedYear: number
@@ -7,7 +13,7 @@ export type BookDocument = Document & {
   author: string[]
   publisher: string
   description: string
-  borrowStatus: 'borrowed' | 'available'
+  borrowStatus: bookStatus
   borrowerID: mongoose.Schema.Types.ObjectId
   borrowDate: Date
   returnDate: Date
@@ -39,7 +45,8 @@ const bookSchema = new mongoose.Schema({
   description: String,
   borrowStatus: {
     type: String,
-    enum: ['borrowed', 'available'],
+    enum: Object.values(bookStatus),
+    default: bookStatus.available,
   },
   borrowerID: mongoose.Schema.Types.ObjectId,
   borrowDate: Date,

@@ -34,6 +34,16 @@ const findByBorrower = async (userId: string): Promise<BookDocument[]> => {
   return foundBooks
 }
 
+const findAllAvailable = async (): Promise<BookDocument[]> => {
+  const foundBooks = await Book.find({ borrowStatus: 'available' })
+
+  if (!foundBooks) {
+    throw new NotFoundError('no books available to borrow')
+  }
+
+  return foundBooks
+}
+
 const findAll = async (): Promise<BookDocument[]> => {
   return Book.find().sort({ name: 1, publishedYear: -1 })
 }
@@ -68,6 +78,7 @@ export default {
   findById,
   findByISBN,
   findByBorrower,
+  findAllAvailable,
   findAll,
   update,
   deleteBook,

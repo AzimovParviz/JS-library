@@ -130,6 +130,24 @@ export const findByBorrower = async (
     }
   }
 }
+
+//GET /available
+export const findAllAvailable = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.json(await bookService.findAllAvailable())
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', 400, error))
+    } else {
+      next(error)
+    }
+  }
+}
+
 // GET /books
 export const findAll = async (
   req: Request,
