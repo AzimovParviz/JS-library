@@ -1,12 +1,19 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from 'pages/Home'
+import AvailableBooks from 'pages/AvailableBooks'
+import Header from './NavBar'
+import { Link } from 'react-router-dom'
 
 const App = () => {
   return (
-    <BrowserRouter>
+   <BrowserRouter>
+        <Header>
+		  <Link to='/available'>Available books</Link>
+		</Header>
       <Routes>
         <Route path="/" element={<Home />} />
-      </Routes>
+		<Route path="/available" element={<AvailableBooks />}/>
+		</Routes>
     </BrowserRouter>
   )
 }
