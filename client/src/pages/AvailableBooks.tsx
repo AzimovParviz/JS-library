@@ -1,21 +1,21 @@
-import { useSelector } from "react-redux"
-import {useEffect, useState} from "react"
-import {useAppDispatch} from "redux/hooks"
-import { RootState } from "redux/store"
-import { fetchAvailableBooksThunk } from 'redux/slices/booksSlice'
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useAppDispatch } from "redux/hooks";
+import { RootState } from "redux/store";
+import { fetchAvailableBooksThunk } from "redux/slices/booksSlice";
 const AvailableBooks = () => {
-		const books = useSelector((state:RootState)=> state.books.availableItems) 
-		const dispatch = useAppDispatch()
-		useEffect(()=>{
-		dispatch(fetchAvailableBooksThunk())
-		},[dispatch])
+  const books = useSelector((state: RootState) => state.books.availableItems);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchAvailableBooksThunk());
+  }, [dispatch]);
 
-		return(
-				<div>
-						<h1>Books available for renting</h1>
-						{books && books.map(book=><p>{book.name}</p>)}
-				</div>
-		)
-}
+  return (
+    <div>
+      <h1>Books available for renting</h1>
+      {books && books.map((book) => <p>{book.name}</p>)}
+    </div>
+  );
+};
 
-export default AvailableBooks
+export default AvailableBooks;

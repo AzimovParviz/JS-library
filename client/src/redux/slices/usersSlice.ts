@@ -5,17 +5,17 @@ import {
   fetchUsersThunk,
   fetchUserThunk,
   updateUserThunk,
-} from 'redux/services/user.service';
+} from "redux/services/user.service";
 
 export type User = {
-  _id: string
-  firstName: string
-  lastName: string
-  email: string
-  borrowedBooks: string[]
-}
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  borrowedBooks: string[];
+};
 
-export type UpdatedUser = Partial<User> 
+export type UpdatedUser = Partial<User>;
 
 export interface UsersState {
   allUsers: User[];
@@ -25,18 +25,18 @@ export interface UsersState {
 
 const initialState: UsersState = {
   allUsers: [],
-		singleUser: {
-				_id: '',
-				firstName: '',
-				lastName: '',
-				email: '',
-				borrowedBooks: []
-		},
-		isLoading: false
-}
+  singleUser: {
+    _id: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    borrowedBooks: [],
+  },
+  isLoading: false,
+};
 
 export const usersSlice = createSlice({
-  name: 'users',
+  name: "users",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

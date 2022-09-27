@@ -1,12 +1,12 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import usersReducer  from 'redux/slices/usersSlice'
-import booksReducer from 'redux/slices/booksSlice'
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import usersReducer from "redux/slices/usersSlice";
+import booksReducer from "redux/slices/booksSlice";
 export const store = configureStore({
-		reducer: {
-				//TODO: dashboard reducer for admin contrlloing users and a user reducer for the logged in user
-				users: usersReducer,
-				books: booksReducer,
-		},
+  reducer: {
+    //TODO: dashboard reducer for admin contrlloing users and a user reducer for the logged in user
+    users: usersReducer,
+    books: booksReducer,
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;

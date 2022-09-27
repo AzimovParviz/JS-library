@@ -1,16 +1,16 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-import { UpdatedUser, User } from 'redux/slices/usersSlice';
+import { UpdatedUser, User } from "redux/slices/usersSlice";
 
 type PutType = {
   userId: string;
   updatedUser: UpdatedUser;
 };
 
-const URL = 'http://localhost:4000/api/v1/users';
+const URL = "http://localhost:4000/api/v1/users";
 
-export const fetchUsersThunk = createAsyncThunk('users/fetch', async () => {
+export const fetchUsersThunk = createAsyncThunk("users/fetch", async () => {
   try {
     const res = await axios.get(`${URL}`);
 
@@ -24,7 +24,7 @@ export const fetchUsersThunk = createAsyncThunk('users/fetch', async () => {
 });
 
 export const fetchUserThunk = createAsyncThunk(
-  'user/fetch',
+  "user/fetch",
   async (userId: string) => {
     try {
       const res = await axios.get(`${URL}/${userId}`);
@@ -40,7 +40,7 @@ export const fetchUserThunk = createAsyncThunk(
 );
 
 export const createUserThunk = createAsyncThunk(
-  'user/create',
+  "user/create",
   async (user: User) => {
     try {
       const res = await axios.post(`${URL}/`, user);
@@ -56,7 +56,7 @@ export const createUserThunk = createAsyncThunk(
 );
 
 export const updateUserThunk = createAsyncThunk(
-  'user/update',
+  "user/update",
   async (data: PutType) => {
     try {
       const { userId, updatedUser } = data;
@@ -73,7 +73,7 @@ export const updateUserThunk = createAsyncThunk(
 );
 
 export const deleteUserThunk = createAsyncThunk(
-  'user/delete',
+  "user/delete",
   async (userId: string) => {
     try {
       const res = await axios.delete(`${URL}/${userId}`);
