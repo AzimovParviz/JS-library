@@ -1,13 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { bookStatus }from 'types'
-import {
-  createBookThunk,
-  deleteBookThunk,
-  fetchBooksThunk,
-  fetchAvailableBooksThunk,
-  fetchBookThunk,
-  updateBookThunk,
-} from 'redux/services/book.service';
+import bookService from "redux/services/book.service";
 
 export type Book = {
   _id: string,
@@ -25,14 +19,21 @@ export type Book = {
 }
 //TODO: look at typescript slides for required, maybe rename singleBook to item 
 export type UpdatedBook = Partial<Book>
-		
+
+type PutType = {
+  bookId: string;
+  updatedBook: UpdatedBook;
+};
+	
 export interface BooksState {
 		items: Book[],
+		availableItems: Book[],
 		singleBook: Book
 }
 
 const initialState: BooksState = {
 		items: [],
+		availableItems: [],
 		singleBook: {
 				_id: '',
 				name: '',
@@ -45,6 +46,36 @@ const initialState: BooksState = {
 				borrowStatus: bookStatus.available
 		}
 }
+
+export const fetchBooksThunk = createAsyncThunk('books/', async() => {
+		const data = await bookService.getAll()
+		return data;
+})
+
+export const fetchAvailableBooksThunk = createAsyncThunk('books/available', async() => {
+		const data = await bookService.getAvailable()
+		return data;
+})
+
+export const fetchBookThunk = createAsyncThunk('books/:bookId', async(bookId: string) => {
+		const data = await bookService.getOne(bookId)
+		return data;
+})
+
+export const createBookThunk = createAsyncThunk('books/create', async(book: Book) => {
+		const data = await bookService.createOne(book)
+		return data
+})
+
+export const updateBookThunk = createAsyncThunk('books/update', async(book: PutType) => {
+		const data = await bookService.updateOne(book)
+		return data
+})
+
+export const deleteBookThunk = createAsyncThunk('books/delete', async(bookId: string) => {
+		const data = await bookService.deleteOne(bookId)
+		return data
+})
 
 export const booksSlice = createSlice({
   name: 'books',
@@ -65,11 +96,11 @@ export const booksSlice = createSlice({
       
     });
     builder.addCase(fetchAvailableBooksThunk.pending, (state: BooksState) => {
-		state.items = [];
+		state.availableItems = [];
 		console.log('looking for available books')
 	})
     builder.addCase(fetchAvailableBooksThunk.fulfilled, (state: BooksState, action) => {
-		state.items = action.payload.data
+			state.availableItems = action.payload.data
 		console.log('borrowable books found', action.payload.data)
 	})
     builder.addCase(fetchBookThunk.pending, (state: BooksState) => {

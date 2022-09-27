@@ -2,7 +2,7 @@ import {useEffect, useState} from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "redux/store"
 import {useAppDispatch} from "redux/hooks"
-import {fetchBooksThunk} from "redux/services/book.service"
+import {fetchBooksThunk} from "redux/slices/booksSlice"
 
 const Home = () => {
 		const dispatch = useAppDispatch()

@@ -10,7 +10,7 @@ export default function Header({ children }: any) {
           padding: '10px',
           flexGrow: 4,
           flexFlow: 'wrap',
-          justifyContent: 'space-between',
+          justifyContent: 'space-evenly',
         }}
       >
         {children}

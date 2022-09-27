@@ -15,14 +15,7 @@ export type User = {
   borrowedBooks: string[]
 }
 
-export type UpdatedUser = {
-  _id?: string;
-  firstName?: string
-  lastName?: string
-  email?: string
-  borrowedBooks?: string[]
-
-  };
+export type UpdatedUser = Partial<User> 
 
 export interface UsersState {
   allUsers: User[];

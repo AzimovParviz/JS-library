@@ -8,6 +8,7 @@ const App = () => {
   return (
    <BrowserRouter>
         <Header>
+		  <Link to='/'>Home</Link>
 		  <Link to='/available'>Available books</Link>
 		</Header>
       <Routes>
