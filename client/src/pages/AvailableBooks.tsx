@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch } from "redux/hooks";
 import { RootState } from "redux/store";
 import { fetchAvailableBooksThunk } from "redux/slices/booksSlice";
@@ -13,7 +13,7 @@ const AvailableBooks = () => {
   return (
     <div>
       <h1>Books available for renting</h1>
-      {books && books.map((book) => <p>{book.name}</p>)}
+      {books && books.map((book) => <p key={book._id}>{book.name}</p>)}
     </div>
   );
 };

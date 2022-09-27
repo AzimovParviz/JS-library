@@ -1,14 +1,19 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import jwt from 'jsonwebtoken'
+
 // import session from 'express-session'
 // import cookieParser from 'cookie-parser'
-// import passport from 'passport'
+import passport from 'passport'
 
 import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
 import bookRouter from './routers/book.router'
 import userRouter from './routers/user.router'
+import loginWithGoogle from './passport/google'
+import { JWT_SECRET } from './util/secrets'
+
 dotenv.config({ path: '.env' })
 const app = express()
 
@@ -37,14 +42,32 @@ app.use(
     secret: 'secret',
   })
 )
-app.use(passport.initialize())
 app.use(passport.session())
 */
 
+app.use(passport.initialize())
+passport.use(loginWithGoogle())
 // Set up routers
 app.use('/api/v1/books', bookRouter)
 
 app.use('/api/v1/users', userRouter)
+
+app.post(
+  '/api/v1/login',
+  passport.authenticate('google-id-token', { session: false }),
+  (req, res) => {
+    const user: any = req.user
+
+    const token = jwt.sign(
+      { userId: user._id, isAdmin: user.isAdmin },
+      JWT_SECRET,
+      {
+        expiresIn: '1h',
+      }
+    )
+    res.json({ token })
+  }
+)
 
 // Custom API error handler
 app.use(apiErrorHandler)
