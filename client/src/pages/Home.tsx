@@ -1,23 +1,21 @@
-import axios from "axios"
-import Header from "components/NavBar"
 import {useEffect, useState} from "react"
-import {Link} from "react-router-dom"
-import { Book} from "types"
-
+import { useSelector } from "react-redux"
+import { RootState } from "redux/store"
+import {useAppDispatch} from "redux/hooks"
+import {fetchBooksThunk} from "redux/services/book.service"
 
 const Home = () => {
-		const [books, setBooks] = useState<Book[]>([])
+		const dispatch = useAppDispatch()
 		useEffect(()=>{
-				axios.get('http://localhost:4000/api/v1/books/')
-						.then(res=>setBooks(res.data))
-
-		}, [books])
+		dispatch(fetchBooksThunk())
+		},[dispatch])
+		const books = useSelector((state:RootState)=> state.books.items) 
 
 
 		return(
 				<div>
-												<h1>Library page</h1>
-						{books.map(book=> <p>{book.name}</p>)}
+						<h1>Library page</h1>
+						{books && books.map(book=> <p>{book.name}</p>)}
 				</div>
 		)
 }
