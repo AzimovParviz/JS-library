@@ -23,7 +23,9 @@ export default function () {
         if (!user) {
           user = new User({
             email: parsedToken.payload.email,
-            isAdmin: false,
+            firstName: parsedToken.payload.given_name,
+            lastName: parsedToken.payload.family_name,
+            isAdmin: parsedToken.payload.email === 'parviz.azimov@integrify.io',
           })
           user.save()
         }

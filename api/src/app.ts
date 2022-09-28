@@ -59,7 +59,13 @@ app.post(
     const user: any = req.user
 
     const token = jwt.sign(
-      { userId: user._id, isAdmin: user.isAdmin },
+      {
+        userId: user._id,
+        isAdmin: user.isAdmin,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      },
       JWT_SECRET,
       {
         expiresIn: '1h',

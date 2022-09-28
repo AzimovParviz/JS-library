@@ -1,4 +1,5 @@
 import express from 'express'
+import authCheck from '../middlewares/checkAuth'
 
 import {
   createUser,
@@ -11,10 +12,10 @@ import {
 const router = express.Router()
 
 // Every path we define here will get /api/v1/users prefix
-router.get('/', findAll)
-router.get('/:userId', findById)
-router.put('/:userId', updateUser)
-router.delete('/:userId', deleteUser)
-router.post('/', createUser)
+router.get('/', authCheck, findAll)
+router.get('/:userId', authCheck, findById)
+router.put('/:userId', authCheck, updateUser)
+router.delete('/:userId', authCheck, deleteUser)
+router.post('/create', authCheck, createUser)
 
 export default router

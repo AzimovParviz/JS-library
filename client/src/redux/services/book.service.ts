@@ -36,7 +36,12 @@ export default {
   },
   getAvailable: async () => {
     try {
-      const res = await axios.get(`${URL}/available`);
+			console.log(`Bearer ${localStorage.getItem('token')}`)
+			const res = await axios.get(`${URL}/available`,{
+				headers: {
+						Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			});
       return {
         data: res.data,
         status: res.status,

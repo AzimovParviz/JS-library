@@ -10,6 +10,7 @@ type PutType = {
 
 const URL = "http://localhost:4000/api/v1/users";
 
+//TODO: refactor how the thunks are created like in book service
 export const fetchUsersThunk = createAsyncThunk("users/fetch", async () => {
   try {
     const res = await axios.get(`${URL}`);

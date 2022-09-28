@@ -13,11 +13,11 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId="">
+    <GoogleOAuthProvider clientId="120143914808-is2hhtmci43l7m6lstbgp8opoitin9lh.apps.googleusercontent.com">
      <Provider store={store}>
       <App />
      </Provider>
-    </GoogleOAuthProvider>;
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );
 
