@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "redux/store";
-import { useAppDispatch } from "redux/hooks";
-import { fetchBooksThunk } from "redux/slices/booksSlice";
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { RootState } from "redux/store"
+import { useAppDispatch } from "redux/hooks"
+import { fetchBooksThunk } from "redux/slices/booksSlice"
 
 const Home = () => {
-	const dispatch = useAppDispatch();
+	const dispatch = useAppDispatch()
 	useEffect(() => {
-		dispatch(fetchBooksThunk());
-	}, [dispatch]);
-	const books = useSelector((state: RootState) => state.books.items);
+		dispatch(fetchBooksThunk())
+	}, [dispatch])
+	const books = useSelector((state: RootState) => state.books.items)
 	return (
 		<div>
 			<h1>Library page</h1>
@@ -18,7 +18,7 @@ const Home = () => {
 					<p key={book._id}>{book.name}</p>
 				))}
 		</div>
-	);
-};
+	)
+}
 
-export default Home;
+export default Home

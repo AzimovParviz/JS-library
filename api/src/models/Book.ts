@@ -33,7 +33,10 @@ const bookSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  genres: [String],
+  genres: {
+    type: [String],
+    required: true,
+  },
   author: {
     type: [String],
     required: true,

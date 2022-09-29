@@ -1,11 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  createUserThunk,
-  deleteUserThunk,
-  fetchUsersThunk,
-  fetchUserThunk,
-  updateUserThunk,
-} from "redux/services/user.service";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import userService from "redux/services/user.service";
 
 export type User = {
   _id: string;
@@ -16,6 +11,11 @@ export type User = {
 };
 
 export type UpdatedUser = Partial<User>;
+
+type PutType = {
+  userId: string
+  updatedUser: UpdatedUser
+}
 
 export interface UsersState {
   allUsers: User[];
@@ -34,7 +34,82 @@ const initialState: UsersState = {
   },
   isLoading: false,
 };
+export const fetchUsersThunk = createAsyncThunk("users/fetch", async () => {
+  try {
+    const res = await userService.getAllUsers()
 
+    return {
+      data: res.data,
+      status: res.status,
+    }
+  } catch (error) {
+    throw error
+  }
+})
+
+export const fetchUserThunk = createAsyncThunk(
+  "user/fetch",
+  async (userId: string) => {
+    try {
+      const res = await userService.getUser(userId)
+
+      return {
+        data: res.data,
+        status: res.status,
+      }
+    } catch (error) {
+      throw error
+    }
+  }
+)
+
+export const createUserThunk = createAsyncThunk(
+  "user/create",
+  async (user: User) => {
+    try {
+      const res = await userService.createUser(user)
+
+      return {
+        data: res.data,
+        status: res.status,
+      }
+    } catch (error) {
+      throw error
+    }
+  }
+)
+
+export const updateUserThunk = createAsyncThunk(
+  "user/update",
+  async (data: PutType) => {
+    try {
+      const res = await userService.updateUser(data)
+
+      return {
+        data: res.data,
+        status: res.status,
+      }
+    } catch (error) {
+      throw error
+    }
+  }
+)
+
+export const deleteUserThunk = createAsyncThunk(
+  "user/delete",
+  async (userId: string) => {
+    try {
+      const res = await userService.deleteUser(userId)
+
+      return {
+        data: userId,
+        status: res.status,
+      }
+    } catch (error) {
+      throw error
+    }
+  }
+)
 export const usersSlice = createSlice({
   name: "users",
   initialState,

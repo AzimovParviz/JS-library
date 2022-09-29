@@ -1,19 +1,24 @@
 export enum bookStatus {
-  available = 'available',
-  borrowed = 'borrowed'
+	available = "available",
+	borrowed = "borrowed",
 }
 
 export type Book = {
-  name: string
-  publishedYear: number
-  genres: string[]
-  ISBN: string
-  author: string[]
-  publisher: string
-  description: string
-  borrowStatus: bookStatus 
-		borrowerID: string 
-		borrowDate: Date
-  returnDate: Date
+	name: string
+	publishedYear: number
+	genres: string[]
+	ISBN: string
+	author: string[]
+	publisher: string
+	description: string
+	borrowStatus: bookStatus
+	borrowerID: string
+	borrowDate: Date
+	returnDate: Date
+}
 
+export type SearchBarProps = {
+	//input values
+	searchTerm: string
+	handleTermChange: React.ChangeEventHandler<HTMLInputElement>
 }
