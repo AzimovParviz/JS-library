@@ -71,7 +71,7 @@ app.post(
         expiresIn: '1h',
       }
     )
-    res.json({ token })
+    res.json({ token, user })
   }
 )
 

@@ -28,12 +28,14 @@ type PutType = {
 export interface BooksState {
 	items: Book[];
 	availableItems: Book[];
+	borrowedItems: Book[];
 	singleBook: Book;
 }
 
 const initialState: BooksState = {
 	items: [],
 	availableItems: [],
+	borrowedItems: [],
 	singleBook: {
 		_id: "",
 		name: "",
@@ -56,6 +58,14 @@ export const fetchAvailableBooksThunk = createAsyncThunk(
 	"books/available",
 	async () => {
 		const data = await bookService.getAvailable();
+		return data;
+	}
+);
+
+export const fetchBorrowedBooksThunk = createAsyncThunk(
+	"books/borrowed",
+	async (userId: string) => {
+		const data = await bookService.getBorrowed(userId);
 		return data;
 	}
 );
@@ -149,6 +159,22 @@ export const booksSlice = createSlice({
 				console.log(error);
 			}
 		);
+		builder.addCase(
+			fetchBorrowedBooksThunk.pending,
+			(state: BooksState) => {}
+		);
+		builder.addCase(
+			fetchBorrowedBooksThunk.fulfilled,
+			(state: BooksState, action) => {
+				state.borrowedItems = action.payload.data;
+			}
+		);
+		builder.addCase(
+			fetchBorrowedBooksThunk.rejected,
+			(state: BooksState, error) => {
+				console.log('cannot fetch borrowed books',error);
+			}
+		)
 		builder.addCase(
 			fetchBookThunk.pending,
 			(state: BooksState) => {}
