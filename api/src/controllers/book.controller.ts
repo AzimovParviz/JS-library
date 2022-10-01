@@ -42,6 +42,26 @@ export const createBook = async (
   }
 }
 
+// PUT /books/borrowed/:bookId
+export const addBorrower = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const bookId = req.params.bookId
+    const body = req.body
+    const updatedBook = await bookService.update(bookId, body)
+    res.json(updatedBook)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', 400, error))
+    } else {
+      next(error)
+    }
+  }
+}
+
 // PUT /books/:bookId
 export const updateBook = async (
   req: Request,

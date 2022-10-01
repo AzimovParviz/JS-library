@@ -20,8 +20,8 @@ const URL = "http://localhost:4000/api/v1/users";
 
 export default {
 	singInUser: async (token_id: string) => {
-			try {
-					const data:any = await axios.post(
+		try {
+			const data: any = await axios.post(
 				"http://localhost:4000/api/v1/login",
 				{},
 				{
@@ -29,12 +29,12 @@ export default {
 						id_token: token_id,
 					},
 				}
-			)
-		    localStorage.setItem('token', data.data.token)
-		return {
-				    data: data.data.user,
-					status: data.status,
-				};
+			);
+			localStorage.setItem("token", data.data.token);
+			return {
+				data: data.data.user,
+				status: data.status,
+			};
 		} catch (error) {
 			throw error;
 		}
@@ -78,11 +78,15 @@ export default {
 		try {
 			const { userId, updatedUser } = data;
 			const res = await axios.put(
-				`${URL}/${userId}`,updatedUser,{
-						headers: {
-								Authorization: `Bearer ${localStorage.getItem('token')}`
-						}
+				`${URL}/${userId}`,
+				updatedUser,
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem(
+							"token"
+						)}`,
 					},
+				}
 			);
 
 			return {
@@ -93,11 +97,22 @@ export default {
 			throw error;
 		}
 	},
-		borrowBook: async (bookId: string, userId: string) => {
+    borrowBook: async (data: PutType) => {
 		try {
-			const res = await axios.put(`${URL}/${userId}`, {
-				borrowedBooks: bookId,
-			});
+			const { userId, updatedUser } = data;
+			const res = await axios.put(
+				`${URL}/borrowed/${userId}`,
+					{
+							"borrowedBooks": updatedUser.borrowedBooks![0]
+					},
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem(
+							"token"
+						)}`,
+					},
+				}
+			);
 
 			return {
 				status: res.status,

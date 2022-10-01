@@ -17,12 +17,6 @@ type PutType = {
 	updatedUser: UpdatedUser;
 };
 
-type BorrowType = {
-	bookId: string;
-	userId: string;
-};
-
-
 export interface UsersState {
 	allUsers: User[];
 	loggedIn: User;
@@ -58,11 +52,13 @@ export const signIn = createAsyncThunk(
 	}
 );
 
-/*export const borrowBookThunk = createAsyncThunk("users/borrowBook", async (bookId:string, userId:string) => {
-		const status = await userService.borrowBook(bookId, userId)
-		return status
-		}
-)*/
+export const borrowBooksThunk = createAsyncThunk(
+	"users/borrowBook",
+	async (data: PutType) => {
+		const status = await userService.borrowBook(data);
+		return status;
+	}
+);
 
 export const fetchUsersThunk = createAsyncThunk("users/fetch", async () => {
 	const data = await userService.getAllUsers();
@@ -107,26 +103,20 @@ export const usersSlice = createSlice({
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {
-		builder.addCase(
-			signIn.pending,
-			(state: UsersState) => {
-				state.isLoading = true;
-			}
-		);
+		builder.addCase(signIn.pending, (state: UsersState) => {
+			state.isLoading = true;
+		});
 		builder.addCase(
 			signIn.fulfilled,
 			(state: UsersState, action) => {
-					state.loggedIn = action.payload.data
-				    state.isLoading = false;
-			}
-		);
-		builder.addCase(
-			signIn.rejected,
-			(state: UsersState, error) => {
-				console.log(error);
+				state.loggedIn = action.payload.data;
 				state.isLoading = false;
 			}
 		);
+		builder.addCase(signIn.rejected, (state: UsersState, error) => {
+			console.log(error);
+			state.isLoading = false;
+		});
 		builder.addCase(
 			fetchUsersThunk.pending,
 			(state: UsersState) => {
@@ -194,15 +184,30 @@ export const usersSlice = createSlice({
 				state.isLoading = true;
 			}
 		);
-			builder.addCase(
-					updateUserThunk.fulfilled, (state: UsersState, action)=> {
-						console.log("user updated", action.payload.data)
-					})
+		builder.addCase(
+			updateUserThunk.fulfilled,
+			(state: UsersState, action) => {
+				console.log(
+					"user updated",
+					action.payload.data
+				);
+			}
+		);
 		builder.addCase(
 			updateUserThunk.rejected,
 			(state: UsersState, error) => {
 				console.log(error);
 				state.isLoading = false;
+			}
+		);
+		builder.addCase(
+			borrowBooksThunk.pending,
+			(state: UsersState) => {}
+		);
+		builder.addCase(
+			borrowBooksThunk.fulfilled,
+			(state: UsersState, action) => {
+				console.log("book borrowed to user");
 			}
 		);
 		builder.addCase(

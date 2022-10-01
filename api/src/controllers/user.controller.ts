@@ -50,6 +50,26 @@ export const updateUser = async (
   }
 }
 
+// PUT /users/borrow/:userId
+export const addBorrowedBooks = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const borrowedBooks = req.body.borrowedBooks
+    const userId = req.params.userId
+    const updatedUser = await userService.update(userId, borrowedBooks)
+    res.json(updatedUser)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', 400, error))
+    } else {
+      next(error)
+    }
+  }
+}
+
 // DELETE /users/:userId
 export const deleteUser = async (
   req: Request,

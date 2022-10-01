@@ -1,5 +1,5 @@
 import Book, { BookDocument } from '../models/Book'
-import { NotFoundError } from '../helpers/apiError'
+import { BadRequestError, NotFoundError } from '../helpers/apiError'
 
 const create = async (book: BookDocument): Promise<BookDocument> => {
   return book.save()
@@ -63,6 +63,23 @@ const update = async (
   return foundBook
 }
 
+const addBorrower = async (
+  bookId: string,
+  borrowedBook: Partial<BookDocument>
+): Promise<BookDocument | null> => {
+  if (!borrowedBook.borrowerID) {
+    throw new BadRequestError('user ID is required')
+  }
+  const foundBook = await Book.findByIdAndUpdate(bookId, borrowedBook, {
+    new: true,
+  })
+  if (!foundBook) {
+    throw new NotFoundError(`Book ${bookId} not found`)
+  }
+
+  return foundBook
+}
+
 const deleteBook = async (bookId: string): Promise<BookDocument | null> => {
   const foundBook = Book.findByIdAndDelete(bookId)
 
@@ -81,5 +98,6 @@ export default {
   findAllAvailable,
   findAll,
   update,
+  addBorrower,
   deleteBook,
 }

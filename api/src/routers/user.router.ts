@@ -7,6 +7,7 @@ import {
   deleteUser,
   findAll,
   updateUser,
+  addBorrowedBooks,
 } from '../controllers/user.controller'
 
 const router = express.Router()
@@ -15,6 +16,7 @@ const router = express.Router()
 router.get('/', authCheck, findAll)
 router.get('/:userId', authCheck, findById)
 router.put('/:userId', authCheck, updateUser)
+router.put('/borrowed/:userId', authCheck, addBorrowedBooks)
 router.delete('/:userId', authCheck, deleteUser)
 router.post('/create', authCheck, createUser)
 

@@ -102,6 +102,14 @@ export const deleteBookThunk = createAsyncThunk(
 	}
 );
 
+export const addBorrowerThunk = createAsyncThunk(
+	"books/borrower",
+	async (updatedBook: PutType) => {
+		const data = await bookService.addBorrower(updatedBook);
+		return data;
+	}
+);
+
 export const booksSlice = createSlice({
 	name: "books",
 	initialState,
@@ -172,9 +180,12 @@ export const booksSlice = createSlice({
 		builder.addCase(
 			fetchBorrowedBooksThunk.rejected,
 			(state: BooksState, error) => {
-				console.log('cannot fetch borrowed books',error);
+				console.log(
+					"cannot fetch borrowed books",
+					error
+				);
 			}
-		)
+		);
 		builder.addCase(
 			fetchBookThunk.pending,
 			(state: BooksState) => {}
@@ -235,6 +246,29 @@ export const booksSlice = createSlice({
 		);
 		builder.addCase(
 			deleteBookThunk.rejected,
+			(state: BooksState, error) => {
+				console.log(error);
+			}
+		);
+		builder.addCase(
+			addBorrowerThunk.pending,
+			(state: BooksState) => {}
+		);
+		builder.addCase(
+			addBorrowerThunk.fulfilled,
+			(state: BooksState, action) => {
+				state.borrowedItems = [
+					...state.borrowedItems,
+					action.payload.data,
+				];
+				console.log(
+					"books borrowed",
+					action.payload.data
+				);
+			}
+		);
+		builder.addCase(
+			addBorrowerThunk.rejected,
 			(state: BooksState, error) => {
 				console.log(error);
 			}

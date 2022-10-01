@@ -123,4 +123,27 @@ export default {
 			throw error;
 		}
 	},
+	addBorrower: async (data: PutType) => {
+		try {
+			const { bookId, updatedBook } = data;
+			const res = await axios.put(
+				`${URL}/borrowed/${bookId}`,
+				updatedBook,
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem(
+							"token"
+						)}`,
+					},
+				}
+			);
+
+			return {
+				data: res.data,
+				status: res.status,
+			};
+		} catch (error) {
+			throw error;
+		}
+	},
 };

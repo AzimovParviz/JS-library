@@ -18,7 +18,8 @@ const BorrowedBooks = () => {
 	return (
 		<div>
 			<h1>Books available for renting</h1>
-			{books &&
+			{books.length === 0 && <p>no books rented</p>}
+			{books.length > 0 &&
 				books.map((book) => (
 					<p key={book._id}>{book.name}</p>
 				))}
