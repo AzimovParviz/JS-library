@@ -18,6 +18,7 @@ export type BookDocument = Document & {
   borrowDate: Date
   returnDate: Date
 }
+
 const bookSchema = new mongoose.Schema({
   name: {
     type: String,

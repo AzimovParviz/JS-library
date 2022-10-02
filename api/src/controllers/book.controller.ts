@@ -51,7 +51,7 @@ export const addBorrower = async (
   try {
     const bookId = req.params.bookId
     const body = req.body
-    const updatedBook = await bookService.update(bookId, body)
+    const updatedBook = await bookService.addBorrower(bookId, body)
     res.json(updatedBook)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {

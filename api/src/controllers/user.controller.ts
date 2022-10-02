@@ -57,9 +57,35 @@ export const addBorrowedBooks = async (
   next: NextFunction
 ) => {
   try {
+    const borrowedBooks = req.body
+    const userId = req.params.userId
+    const updatedUser = await userService.addBorrowedBooks(
+      userId,
+      borrowedBooks
+    )
+    res.json(updatedUser)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', 400, error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+//PUT /users/return/:userId
+export const returnBorrowedBooks = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
     const borrowedBooks = req.body.borrowedBooks
     const userId = req.params.userId
-    const updatedUser = await userService.update(userId, borrowedBooks)
+    const updatedUser = await userService.returnBorrowedBooks(
+      userId,
+      borrowedBooks
+    )
     res.json(updatedUser)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {

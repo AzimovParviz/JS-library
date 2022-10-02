@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import booksSlice, { UpdatedBook, Book } from "redux/slices/booksSlice";
+import { UpdatedBook, Book } from "redux/slices/booksSlice";
 
 type PutType = {
 	bookId: string;

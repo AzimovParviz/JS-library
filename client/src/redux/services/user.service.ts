@@ -1,6 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { userInfo } from "os";
 
 import { UpdatedUser, User } from "redux/slices/usersSlice";
 
@@ -97,14 +95,14 @@ export default {
 			throw error;
 		}
 	},
-    borrowBook: async (data: PutType) => {
+	borrowBook: async (data: PutType) => {
 		try {
 			const { userId, updatedUser } = data;
 			const res = await axios.put(
 				`${URL}/borrowed/${userId}`,
-					{
-							"borrowedBooks": updatedUser.borrowedBooks![0]
-					},
+				{
+					"borrowedBooks": updatedUser.borrowedBooks![0]
+				},
 				{
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem(

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "redux/store";
 import { useAppDispatch } from "redux/hooks";
@@ -6,6 +6,7 @@ import { fetchBooksThunk } from "redux/slices/booksSlice";
 import { borrowBooksThunk } from "redux/slices/usersSlice";
 import { addBorrowerThunk } from "redux/slices/booksSlice";
 import { bookStatus } from "types";
+import Button from "@mui/material/Button";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -14,7 +15,7 @@ const Home = () => {
   }, [dispatch]);
   const books = useSelector((state: RootState) => state.books.items);
   const user = useSelector((state: RootState) => state.users.loggedIn);
-		//TODO: when you borrow a book, the button dissapears , right now it only dissapears on reload 
+		//TODO: when you borrow a book, the Button dissapears , right now it only dissapears on reload 
   return (
     <div>
       <h1>Library page</h1>
@@ -22,7 +23,7 @@ const Home = () => {
         books.map((book) => (
           <p key={book._id}>
             {book.name}{" "}
-				{book.borrowStatus===bookStatus.available && user._id && <button
+				{book.borrowStatus===bookStatus.available && user._id && <Button
               onClick={() => {
                 dispatch(
                   borrowBooksThunk({
@@ -44,7 +45,7 @@ const Home = () => {
               }}
             >
               borrow
-            </button>
+            </Button>
  }
 		  </p>
         ))}

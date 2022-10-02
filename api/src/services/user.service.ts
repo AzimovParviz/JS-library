@@ -34,17 +34,15 @@ const update = async (
   return foundUser
 }
 
-const addBorrowedBook = async (
+const addBorrowedBooks = async (
   userId: string,
   update: Partial<UserDocument>
 ): Promise<UserDocument | null> => {
-  if (!update.borrowedBooks || update.borrowedBooks.length <= 0) {
+  if (!update.borrowedBooks) {
     throw new BadRequestError('Book ID(s) required')
   }
-  //const foundUser = await User.findById(userId)
-  //let foundUser = await User.findByIdAndUpdate(userId, update, { new: false })
-  //User.update({_id: userId}, { $push: { borrowedBooks: update.borrowedBooks}})
-  //if (foundUser) foundUser.borrowedBooks.push(update.borrowedBooks[0])
+  if (update.borrowedBooks.length <= 0)
+    throw new BadRequestError('no book ids were provided')
   const foundUser = await User.findOneAndUpdate(
     { _id: userId },
     { $push: { borrowedBooks: update.borrowedBooks[0] } }
@@ -53,6 +51,26 @@ const addBorrowedBook = async (
   if (!foundUser) {
     throw new NotFoundError(`Book ${userId} not found`)
   }
+
+  return foundUser
+}
+
+const returnBorrowedBooks = async (
+  userId: string,
+  update: Partial<UserDocument>
+): Promise<UserDocument | null> => {
+  if (!update.borrowedBooks || update.borrowedBooks.length <= 0) {
+    throw new BadRequestError('Book ID(s) required')
+  }
+  const foundUser = await User.findOneAndUpdate(
+    { _id: userId },
+    { $pull: { borrowedBooks: update.borrowedBooks[0] } }
+  )
+
+  if (!foundUser) {
+    throw new NotFoundError(`Book ${userId} not found`)
+  }
+
   return foundUser
 }
 
@@ -71,6 +89,7 @@ export default {
   findById,
   findAll,
   update,
-  addBorrowedBook,
+  addBorrowedBooks,
+  returnBorrowedBooks,
   deleteUser,
 }
