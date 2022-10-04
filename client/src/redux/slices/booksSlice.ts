@@ -1,36 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { bookStatus } from "types";
+import { Book, BooksState, bookStatus, PutType } from "types";
 import bookService from "redux/services/book.service";
 
-export type Book = {
-	_id: string;
-	name: string;
-	publishedYear: number;
-	genres: string[];
-	ISBN: string;
-	author: string[];
-	publisher: string;
-	description: string;
-	borrowStatus: bookStatus;
-	borrowerID?: string;
-	borrowDate?: Date;
-	returnDate?: Date;
-};
-//TODO: look at typescript slides for required, maybe rename singleBook to item
-export type UpdatedBook = Partial<Book>;
 
-type PutType = {
-	bookId: string;
-	updatedBook: UpdatedBook;
-};
-
-export interface BooksState {
-	items: Book[];
-	availableItems: Book[];
-	borrowedItems: Book[];
-	singleBook: Book;
-}
 
 const initialState: BooksState = {
 	items: [],

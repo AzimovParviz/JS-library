@@ -1,11 +1,6 @@
 import axios from "axios";
 
-import { UpdatedBook, Book } from "redux/slices/booksSlice";
-
-type PutType = {
-	bookId: string;
-	updatedBook: UpdatedBook;
-};
+import { UpdatedBook, Book, PutType } from "types";
 
 const URL = "http://localhost:4000/api/v1/books";
 

@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
   },
   borrowedBooks: {
     type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Book',
   },
 })
 

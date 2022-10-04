@@ -52,7 +52,10 @@ const bookSchema = new mongoose.Schema({
     enum: Object.values(bookStatus),
     default: bookStatus.available,
   },
-  borrowerID: mongoose.Schema.Types.ObjectId,
+  borrowerID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
   borrowDate: Date,
   returnDate: Date,
 })

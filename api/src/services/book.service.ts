@@ -15,14 +15,14 @@ const findById = async (bookId: string): Promise<BookDocument> => {
   return foundBook
 }
 
-const findByISBN = async (ISBN: string): Promise<BookDocument> => {
-  const foundBook = await Book.findOne({ ISBN: ISBN })
+const findByISBN = async (ISBN: string): Promise<BookDocument[]> => {
+  const foundBooks = await Book.find({ ISBN: ISBN })
 
-  if (!foundBook) {
+  if (!foundBooks) {
     throw new NotFoundError(`Book ISBN ${ISBN} not found`)
   }
 
-  return foundBook
+  return foundBooks
 }
 
 const findByBorrower = async (userId: string): Promise<BookDocument[]> => {
