@@ -37,3 +37,26 @@ export interface BooksState {
 	borrowedItems: Book[];
 	singleBook: Book;
 }
+
+export type User = {
+	_id: string;
+	firstName: string;
+	lastName: string;
+	email: string;
+	borrowedBooks: string[];
+	isAdmin: boolean
+};
+
+export type UpdatedUser = Partial<User>;
+
+export type UserPutType = {
+	userId: string;
+	updatedUser: UpdatedUser;
+};
+
+export interface UsersState {
+	allUsers: User[];
+	loggedIn: User;
+	singleUser: User;
+	isLoading: boolean;
+}

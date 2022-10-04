@@ -12,6 +12,7 @@ import BorrowedBooks from "pages/BorrowedBooks";
 import { RootState } from "redux/store"
 import ProtectedRoute from "./ProtectedRoute";
 import Login from "pages/Login";
+import Dashboard from "pages/Dashboard";
 
 const App = () => {
 	const [displayLogin, setDisplayLogin] = useState(true);
@@ -24,7 +25,7 @@ const App = () => {
 				<Link to="/">Home</Link>
 				<Link to="/available">Available books</Link>
 				<Link to="/borrowed">Borrowed books</Link>
-				<Link to="/login"></Link>
+				{user.isAdmin && <Link to="/dashboard">Dashboard</Link>}
 				{user._id && <span>Welcome, {user.firstName}</span>}
 			</Header>
 			<Routes>
@@ -32,6 +33,11 @@ const App = () => {
 				<Route path="/" element={
 					<ProtectedRoute user={user}>
 						<Home />
+					</ProtectedRoute>
+				} />
+				<Route path="/dashboard" element={
+					<ProtectedRoute user={user} adminCheck={true}>
+						<Dashboard />
 					</ProtectedRoute>
 				} />
 				<Route

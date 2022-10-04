@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { UpdatedUser, User } from "redux/slices/usersSlice";
+import { UpdatedUser, User } from "types";
 
 export type PutType = {
 	userId: string;

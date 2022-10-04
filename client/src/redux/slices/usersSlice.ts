@@ -1,28 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import userService from "redux/services/user.service";
+import { User, UserPutType, UsersState } from "types";
 
-export type User = {
-	_id: string;
-	firstName: string;
-	lastName: string;
-	email: string;
-	borrowedBooks: string[];
-};
 
-export type UpdatedUser = Partial<User>;
-
-type PutType = {
-	userId: string;
-	updatedUser: UpdatedUser;
-};
-
-export interface UsersState {
-	allUsers: User[];
-	loggedIn: User;
-	singleUser: User;
-	isLoading: boolean;
-}
 
 const initialState: UsersState = {
 	allUsers: [],
@@ -32,6 +13,7 @@ const initialState: UsersState = {
 		lastName: "",
 		email: "",
 		borrowedBooks: [],
+		isAdmin: false
 	},
 	loggedIn: {
 		_id: "",
@@ -39,6 +21,7 @@ const initialState: UsersState = {
 		lastName: "",
 		email: "",
 		borrowedBooks: [],
+		isAdmin: false
 	},
 	isLoading: false,
 };
@@ -54,7 +37,7 @@ export const signIn = createAsyncThunk(
 
 export const borrowBooksThunk = createAsyncThunk(
 	"users/borrowBook",
-	async (data: PutType) => {
+	async (data: UserPutType) => {
 		const status = await userService.borrowBook(data);
 		return status;
 	}
@@ -85,7 +68,7 @@ export const createUserThunk = createAsyncThunk(
 
 export const updateUserThunk = createAsyncThunk(
 	"user/update",
-	async (user: PutType) => {
+	async (user: UserPutType) => {
 		const data = await userService.updateUser(user);
 		return data;
 	}
