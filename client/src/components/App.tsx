@@ -10,58 +10,45 @@ import { useAppDispatch } from "redux/hooks";
 import { useSelector } from "react-redux"
 import BorrowedBooks from "pages/BorrowedBooks";
 import { RootState } from "redux/store"
+import ProtectedRoute from "./ProtectedRoute";
+import Login from "pages/Login";
 
 const App = () => {
 	const [displayLogin, setDisplayLogin] = useState(true);
 	const dispatch = useAppDispatch();
 
-		const user = useSelector((state: RootState) => state.users.loggedIn)	
-		return (
+	const user = useSelector((state: RootState) => state.users.loggedIn)
+	return (
 		<BrowserRouter>
 			<Header>
 				<Link to="/">Home</Link>
 				<Link to="/available">Available books</Link>
 				<Link to="/borrowed">Borrowed books</Link>
-				{displayLogin && (
-					<GoogleLogin
-						onSuccess={(
-							credentialResponse
-						) => {
-							if (
-								credentialResponse.credential
-							) {
-								console.log(
-									"login succes",
-									credentialResponse.credential
-								);
-								setDisplayLogin(
-									false
-								);
-								dispatch(
-									signIn(
-										credentialResponse.credential
-									)
-								);
-							}
-						}}
-						onError={() => {
-							console.log(
-								"Login Failed"
-							);
-						}}
-					/>
-				)}
-				{!displayLogin && <span>Welcome, {user.firstName}</span>}
+				<Link to="/login"></Link>
+				{user._id && <span>Welcome, {user.firstName}</span>}
 			</Header>
 			<Routes>
-				<Route path="/" element={<Home />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/" element={
+					<ProtectedRoute user={user}>
+						<Home />
+					</ProtectedRoute>
+				} />
 				<Route
 					path="/available"
-					element={<AvailableBooks />}
+					element={
+						<ProtectedRoute user={user}>
+							<AvailableBooks />
+						</ProtectedRoute>
+					}
 				/>
 				<Route
 					path="/borrowed"
-					element={<BorrowedBooks />}
+					element={
+						<ProtectedRoute user={user}>
+							<BorrowedBooks />
+						</ProtectedRoute>
+					}
 				/>
 			</Routes>
 		</BrowserRouter>
