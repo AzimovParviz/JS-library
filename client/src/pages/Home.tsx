@@ -15,7 +15,7 @@ const Home = () => {
   }, [dispatch]);
   const books = useSelector((state: RootState) => state.books.items);
   const user = useSelector((state: RootState) => state.users.loggedIn);
-		//TODO: when you borrow a book, the Button dissapears , right now it only dissapears on reload 
+  //TODO: when you borrow a book, the Button dissapears , right now it only dissapears on reload 
   return (
     <div>
       <h1>Library page</h1>
@@ -23,7 +23,7 @@ const Home = () => {
         books.map((book) => (
           <p key={book._id}>
             {book.name}{" "}
-				{book.borrowStatus===bookStatus.available && user._id && <Button
+            {book.borrowStatus === bookStatus.available && user._id && <Button
               onClick={() => {
                 dispatch(
                   borrowBooksThunk({
@@ -46,8 +46,29 @@ const Home = () => {
             >
               borrow
             </Button>
- }
-		  </p>
+            }
+            {book.borrowStatus === bookStatus.borrowed && user._id && <Button
+            onClick={() => {
+                dispatch(
+                  borrowBooksThunk({
+                    userId: user._id,
+                    updatedUser: {
+                      borrowedBooks: [book._id],
+                    },
+                  })
+                );
+                dispatch(
+                  addBorrowerThunk({
+                    bookId: book._id,
+                    updatedBook: {
+                      borrowerID: undefined,
+                      borrowStatus: bookStatus.available,
+                    },
+                  })
+                );
+              }} disabled>return</Button>
+          }
+          </p>
         ))}
     </div>
   );
