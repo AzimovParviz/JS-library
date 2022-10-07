@@ -42,7 +42,13 @@ export const borrowBooksThunk = createAsyncThunk(
 		return status;
 	}
 );
-
+export const returnBooksThunk = createAsyncThunk(
+	"users/returnBook",
+	async (data: UserPutType) => {
+		const status = await userService.returnBook(data);
+		return status;
+	}
+);
 export const fetchUsersThunk = createAsyncThunk("users/fetch", async () => {
 	const data = await userService.getAllUsers();
 
@@ -191,6 +197,16 @@ export const usersSlice = createSlice({
 			borrowBooksThunk.fulfilled,
 			(state: UsersState, action) => {
 				console.log("book borrowed to user");
+			}
+		);
+		builder.addCase(
+			returnBooksThunk.pending,
+			() => {}
+		);
+		builder.addCase(
+			returnBooksThunk.fulfilled,
+			() => {
+				console.log("book returned to user");
 			}
 		);
 		builder.addCase(

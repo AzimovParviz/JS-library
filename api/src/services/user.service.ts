@@ -45,7 +45,7 @@ const addBorrowedBooks = async (
     throw new BadRequestError('no book ids were provided')
   const foundUser = await User.findOneAndUpdate(
     { _id: userId },
-    { $push: { borrowedBooks: update.borrowedBooks[0] } }
+    { $push: { borrowedBooks: update.borrowedBooks } }
   )
 
   if (!foundUser) {
@@ -59,12 +59,13 @@ const returnBorrowedBooks = async (
   userId: string,
   update: Partial<UserDocument>
 ): Promise<UserDocument | null> => {
-  if (!update.borrowedBooks || update.borrowedBooks.length <= 0) {
+  if (!update.borrowedBooks) {
+    console.log('i am going to shoot myself', update.borrowedBooks)
     throw new BadRequestError('Book ID(s) required')
   }
   const foundUser = await User.findOneAndUpdate(
     { _id: userId },
-    { $pull: { borrowedBooks: update.borrowedBooks[0] } }
+    { $pull: { borrowedBooks: update.borrowedBooks } }
   )
 
   if (!foundUser) {

@@ -1,4 +1,4 @@
-import Book, { BookDocument } from '../models/Book'
+import Book, { BookDocument, bookStatus } from '../models/Book'
 import { BadRequestError, NotFoundError } from '../helpers/apiError'
 
 const create = async (book: BookDocument): Promise<BookDocument> => {
@@ -67,8 +67,13 @@ const addBorrower = async (
   bookId: string,
   borrowedBook: Partial<BookDocument>
 ): Promise<BookDocument | null> => {
-  if (!borrowedBook.borrowerID) {
+  if (
+    !borrowedBook.borrowerID &&
+    borrowedBook.borrowStatus === bookStatus.borrowed
+  ) {
     throw new BadRequestError('user ID is required')
+  } else if (borrowedBook.borrowStatus === bookStatus.available) {
+    borrowedBook.borrowerID = null
   }
   const foundBook = await Book.findByIdAndUpdate(bookId, borrowedBook, {
     new: true,
@@ -76,7 +81,10 @@ const addBorrower = async (
   if (!foundBook) {
     throw new NotFoundError(`Book ${bookId} not found`)
   }
-
+  console.log(
+    'what the fuck is the borrowerID and why does it get updated ffs',
+    borrowedBook.borrowerID
+  )
   return foundBook
 }
 

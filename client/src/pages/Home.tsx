@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "redux/store";
 import { useAppDispatch } from "redux/hooks";
 import { fetchBooksThunk } from "redux/slices/booksSlice";
-import { borrowBooksThunk } from "redux/slices/usersSlice";
+import { borrowBooksThunk, returnBooksThunk } from "redux/slices/usersSlice";
 import { addBorrowerThunk } from "redux/slices/booksSlice";
 import { bookStatus } from "types";
 import Button from "@mui/material/Button";
@@ -50,7 +50,7 @@ const Home = () => {
             {book.borrowStatus === bookStatus.borrowed && user._id && <Button
             onClick={() => {
                 dispatch(
-                  borrowBooksThunk({
+                  returnBooksThunk({
                     userId: user._id,
                     updatedUser: {
                       borrowedBooks: [book._id],
@@ -66,7 +66,7 @@ const Home = () => {
                     },
                   })
                 );
-              }} disabled>return</Button>
+              }}>return</Button>
           }
           </p>
         ))}

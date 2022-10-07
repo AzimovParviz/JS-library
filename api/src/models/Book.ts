@@ -1,6 +1,6 @@
 import mongoose, { Document } from 'mongoose'
 
-enum bookStatus {
+export enum bookStatus {
   available = 'available',
   borrowed = 'borrowed',
 }
@@ -14,7 +14,7 @@ export type BookDocument = Document & {
   publisher: string
   description: string
   borrowStatus: bookStatus
-  borrowerID: mongoose.Schema.Types.ObjectId
+  borrowerID: mongoose.Schema.Types.ObjectId | null
   borrowDate: Date
   returnDate: Date
 }

@@ -58,6 +58,7 @@ export const addBorrowedBooks = async (
   next: NextFunction
 ) => {
   try {
+    //need to have another way of validating that there are only borrowed books and no other stuff to prevent malicious updates
     const borrowedBooks = req.body
     const userId = req.params.userId
     const updatedUser = await userService.addBorrowedBooks(
@@ -81,7 +82,8 @@ export const returnBorrowedBooks = async (
   next: NextFunction
 ) => {
   try {
-    const borrowedBooks = req.body.borrowedBooks
+    const borrowedBooks = req.body
+    console.log('god help', borrowedBooks)
     const userId = req.params.userId
     const updatedUser = await userService.returnBorrowedBooks(
       userId,

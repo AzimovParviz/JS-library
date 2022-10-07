@@ -119,6 +119,30 @@ export default {
 			throw error;
 		}
 	},
+	returnBook: async (data: PutType) => {
+		try {
+			const { userId, updatedUser } = data;
+			const res = await axios.put(
+				`${URL}/return/${userId}`,
+				{
+					"borrowedBooks": updatedUser.borrowedBooks![0]
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem(
+							"token"
+						)}`,
+					},
+				}
+			);
+
+			return {
+				status: res.status,
+			};
+		} catch (error) {
+			throw error;
+		}
+	},
 	deleteUser: async (userId: string) => {
 		try {
 			const res = await axios.delete(`${URL}/${userId}`);
