@@ -137,6 +137,7 @@ export default {
 			);
 
 			return {
+				data: res.data,
 				status: res.status,
 			};
 		} catch (error) {

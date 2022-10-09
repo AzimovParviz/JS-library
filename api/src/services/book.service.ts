@@ -72,8 +72,6 @@ const addBorrower = async (
     borrowedBook.borrowStatus === bookStatus.borrowed
   ) {
     throw new BadRequestError('user ID is required')
-  } else if (borrowedBook.borrowStatus === bookStatus.available) {
-    borrowedBook.borrowerID = null
   }
   const foundBook = await Book.findByIdAndUpdate(bookId, borrowedBook, {
     new: true,
@@ -81,10 +79,22 @@ const addBorrower = async (
   if (!foundBook) {
     throw new NotFoundError(`Book ${bookId} not found`)
   }
-  console.log(
-    'what the fuck is the borrowerID and why does it get updated ffs',
-    borrowedBook.borrowerID
-  )
+  return foundBook
+}
+
+const removeBorrower = async (
+  bookId: string,
+  borrowedBook: Partial<BookDocument> //i'll leave this for now to implement date checks later on
+): Promise<BookDocument | null> => {
+  //just in case
+  borrowedBook.borrowerID = null
+  borrowedBook.borrowStatus = bookStatus.available
+  const foundBook = await Book.findByIdAndUpdate(bookId, borrowedBook, {
+    new: true,
+  })
+  if (!foundBook) {
+    throw new NotFoundError(`Book ${bookId} not found`)
+  }
   return foundBook
 }
 
@@ -107,5 +117,6 @@ export default {
   findAll,
   update,
   addBorrower,
+  removeBorrower,
   deleteBook,
 }

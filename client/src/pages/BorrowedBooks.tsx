@@ -17,7 +17,7 @@ const BorrowedBooks = () => {
 	}, [dispatch])
 	return (
 		<div>
-			<h1>Books available for renting</h1>
+			<h1>Your borrowed books</h1>
 			{books.length === 0 && <p>no books rented</p>}
 			{books.length > 0 &&
 				books.map((book) => (

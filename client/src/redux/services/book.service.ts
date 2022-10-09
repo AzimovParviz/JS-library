@@ -141,4 +141,27 @@ export default {
 			throw error;
 		}
 	},
+	removeBorrower: async (data: PutType) => {
+		try {
+			const { bookId, updatedBook } = data;
+			const res = await axios.put(
+				`${URL}/return/${bookId}`,
+				updatedBook,
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem(
+							"token"
+						)}`,
+					},
+				}
+			);
+
+			return {
+				data: res.data,
+				status: res.status,
+			};
+		} catch (error) {
+			throw error;
+		}
+	},
 };

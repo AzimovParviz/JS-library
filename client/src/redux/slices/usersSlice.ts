@@ -49,6 +49,7 @@ export const returnBooksThunk = createAsyncThunk(
 		return status;
 	}
 );
+
 export const fetchUsersThunk = createAsyncThunk("users/fetch", async () => {
 	const data = await userService.getAllUsers();
 

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "redux/store";
 import { useAppDispatch } from "redux/hooks";
-import { fetchBooksThunk } from "redux/slices/booksSlice";
+import { fetchBooksThunk, removeBorrowerThunk } from "redux/slices/booksSlice";
 import { borrowBooksThunk, returnBooksThunk } from "redux/slices/usersSlice";
 import { addBorrowerThunk } from "redux/slices/booksSlice";
 import { bookStatus } from "types";
@@ -58,7 +58,7 @@ const Home = () => {
                   })
                 );
                 dispatch(
-                  addBorrowerThunk({
+                  removeBorrowerThunk({
                     bookId: book._id,
                     updatedBook: {
                       borrowerID: undefined,

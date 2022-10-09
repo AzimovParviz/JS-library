@@ -83,6 +83,15 @@ export const addBorrowerThunk = createAsyncThunk(
 	}
 );
 
+export const removeBorrowerThunk = createAsyncThunk(
+	"books/borrower",
+	async (updatedBook: PutType) => {
+		const data = await bookService.removeBorrower(updatedBook);
+		return data;
+	}
+);
+
+
 export const booksSlice = createSlice({
 	name: "books",
 	initialState,
