@@ -12,7 +12,6 @@ export default function Dashboard() {
     }, [dispatch]);
 
     const books = useSelector((state: RootState) => state.books.items);
-    const currentUser = useSelector((state: RootState) => state.users.loggedIn);
     const users = useSelector((state:RootState)=>state.users.allUsers)
     console.log(users)
     return(
