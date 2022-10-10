@@ -39,7 +39,13 @@ export default {
 	},
 	getAllUsers: async () => {
 		try {
-			const res = await axios.get(`${URL}`);
+			const res = await axios.get(`${URL}`, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem(
+						"token"
+					)}`,
+				},
+			});
 			return {
 				data: res.data,
 				status: res.status,
@@ -50,7 +56,13 @@ export default {
 	},
 	getUser: async (userId: string) => {
 		try {
-			const res = await axios.get(`${URL}/${userId}`);
+			const res = await axios.get(`${URL}/${userId}`, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem(
+						"token"
+					)}`,
+				},
+			});
 
 			return {
 				data: res.data,
@@ -62,7 +74,13 @@ export default {
 	},
 	createUser: async (user: User) => {
 		try {
-			const res = await axios.post(`${URL}/`, user);
+			const res = await axios.post(`${URL}/`, user, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem(
+						"token"
+					)}`,
+				},
+			} );
 
 			return {
 				data: res.data,
@@ -146,7 +164,13 @@ export default {
 	},
 	deleteUser: async (userId: string) => {
 		try {
-			const res = await axios.delete(`${URL}/${userId}`);
+			const res = await axios.delete(`${URL}/${userId}`, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem(
+						"token"
+					)}`,
+				},
+			});
 
 			return {
 				data: userId,

@@ -7,20 +7,56 @@ import {
     TableHead,
     TableBody,
 } from '@mui/material/'
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 import { bookStatus, User } from 'types'
 import { Book } from 'types'
+import { useState } from 'react';
 
 type TableProps = {
     books?: Book[],
     users?: User[]
 }
 
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  height: 500,
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+  overflow: 'scroll'
+};
 
 export default function AdminTable(props: TableProps) {
     const books = props.books
     const users = props.users
+    const [openbooks, setOpenbooks] = useState(false);
+    const [openusers, setOpenusers] = useState(false);
+    const handleBooksOpen = () => setOpenbooks(true);
+    const handleBooksClose = () => setOpenbooks(false);
+    const handleUsersOpen = () => setOpenusers(true);
+    const handleUsersClose = () => setOpenusers(false);
+
     return (
-        <TableContainer>
+        <div>
+            <div>
+      <Button onClick={handleBooksOpen}>Open books table</Button>
+      <Modal
+        open={openbooks}
+        onClose={handleBooksClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+              List of books
+          </Typography>
+            <TableContainer>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -48,6 +84,34 @@ export default function AdminTable(props: TableProps) {
                     </TableBody>
 
                 }
+
+            </Table>
+        </TableContainer>
+        </Box>
+      </Modal>
+    </div>
+<div>
+      <Button onClick={handleUsersOpen}>Open users table</Button>
+      <Modal
+        open={openusers}
+        onClose={handleUsersClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Text in a modal
+          </Typography>
+            <TableContainer>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>
+                            ID
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+
                 {users &&
                     <TableBody>
                         {
@@ -68,5 +132,10 @@ export default function AdminTable(props: TableProps) {
                 }
             </Table>
         </TableContainer>
+        </Box>
+      </Modal>
+    </div>
+
+        </div>
     )
 }

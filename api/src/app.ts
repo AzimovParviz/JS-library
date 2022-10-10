@@ -4,7 +4,6 @@ import cors from 'cors'
 
 // import session from 'express-session'
 // import cookieParser from 'cookie-parser'
-import passport from 'passport'
 
 import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
