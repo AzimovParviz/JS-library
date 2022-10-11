@@ -25,7 +25,9 @@ app.use(
 )
 app.use(apiContentType)
 app.use(express.json())
-
+app.use(express.static('public'))
+//http://localhost:4000/covers/cover1.jpg
+app.use('/covers/', express.static('covers'))
 // Set up routers
 app.use('/api/v1/books', bookRouter)
 

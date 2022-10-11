@@ -18,6 +18,7 @@ const initialState: BooksState = {
 		author: [],
 		publisher: "",
 		description: "",
+		imageUrl: "",
 		borrowStatus: bookStatus.available,
 	},
 };

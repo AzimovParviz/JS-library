@@ -13,6 +13,7 @@ export type BookDocument = Document & {
   author: string[]
   publisher: string
   description: string
+  imageUrl: string
   borrowStatus: bookStatus
   borrowerID: mongoose.Schema.Types.ObjectId | null
   borrowDate: Date
@@ -47,6 +48,7 @@ const bookSchema = new mongoose.Schema({
     required: true,
   },
   description: String,
+  imageUrl: String,
   borrowStatus: {
     type: String,
     enum: Object.values(bookStatus),

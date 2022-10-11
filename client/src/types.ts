@@ -9,6 +9,10 @@ export type SearchBarProps = {
 	handleTermChange: React.ChangeEventHandler<HTMLInputElement>
 }
 
+export type BookCardProps = {
+    book: Book
+}
+
 export type Book = {
 	_id: string;
 	name: string;
@@ -18,6 +22,7 @@ export type Book = {
 	author: string[];
 	publisher: string;
 	description: string;
+	imageUrl: string;
 	borrowStatus: bookStatus;
 	borrowerID?: string;
 	borrowDate?: Date;

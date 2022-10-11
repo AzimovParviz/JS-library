@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "redux/store";
 import { useAppDispatch } from "redux/hooks";
 import { fetchBooksThunk } from "redux/slices/booksSlice";
+import BookCard from "components/BookCard";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -16,11 +17,7 @@ const Home = () => {
       <h1>Library page</h1>
       {books &&
         books.map((book) => (
-          <p key={book._id}>
-            {book.name}{" "}
-
-
-          </p>
+          <BookCard book={book} />
         ))}
     </div>
   );
