@@ -73,7 +73,15 @@ export default {
 	},
 	createOne: async (book: Book) => {
 		try {
-			const res = await axios.post(`${URL}/`, book);
+			const res = await axios.post(`${URL}/`, book,
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem(
+							"token"
+						)}`,
+					},
+				}
+);
 
 			return {
 				data: res.data,

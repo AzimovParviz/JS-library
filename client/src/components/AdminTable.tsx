@@ -13,7 +13,7 @@ import Modal from "@mui/material/Modal";
 import { bookStatus, User } from "types";
 import { Book } from "types";
 import { useState } from "react";
-import BookForm from "./BookForm";
+import CreateBookForm from "./CreateBookForm";
 
 type TableProps = {
   books: Book[];
@@ -25,7 +25,7 @@ const style = {
   top: "50%",
   left: "50%",
   height: 500,
-  width: '90%',
+  width: "90%",
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
   border: "2px solid #000",
@@ -55,7 +55,7 @@ export default function AdminTable(props: TableProps) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <BookForm book={bookToEdit} />
+        <p> Editing will be available later</p>
       </Modal>
       <div>
         <Button onClick={handleBooksOpen}>Open books table</Button>
@@ -101,7 +101,7 @@ export default function AdminTable(props: TableProps) {
                           <Button
                             onClick={() => {
                               setBookToEdit(book);
-                              handleBookEditOpen()
+                              handleBookEditOpen();
                             }}
                           >
                             Edit
@@ -160,6 +160,7 @@ export default function AdminTable(props: TableProps) {
           </Box>
         </Modal>
       </div>
+      <CreateBookForm />
     </div>
   );
 }
