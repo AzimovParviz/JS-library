@@ -5,12 +5,12 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import { BookCardProps } from 'types';
-
+//TODO: Description in a collapsible
 export default function BookCard(book: BookCardProps) {
     return (
-	    <Card sx={{ maxWidth: 275 }}>
+	    <Card sx={{ width: 300,  height: 400, margin: '5px' }}>
             <CardHeader title={book.book.name}
-            subheader="September 14, 2016" />
+            subheader={book.book.author} />
             <CardMedia
                 component="img"
                 height="194"

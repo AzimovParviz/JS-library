@@ -1,24 +1,49 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "redux/store";
 import { useAppDispatch } from "redux/hooks";
 import { fetchBooksThunk } from "redux/slices/booksSlice";
 import BookCard from "components/BookCard";
+import Box from "@mui/material/Box";
+import SearchBar from "components/SearchBar";
+
+export const style = {
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "space-around",
+  flexWrap: "wrap",
+};
 
 const Home = () => {
   const dispatch = useAppDispatch();
+  const [term, setTerm] = useState("");
   useEffect(() => {
     dispatch(fetchBooksThunk());
   }, [dispatch]);
+  const handleChange = (e: any) => {
+    setTerm((e.target as HTMLInputElement).value);
+  };
+
   const books = useSelector((state: RootState) => state.books.items);
+  let filtered = books;
+  filtered = filtered.filter(
+    (b) =>
+      b.name.toLowerCase().includes(term.toLowerCase()) ||
+      b.author.toString().toLowerCase().includes(term.toLowerCase())
+  );
   //TODO: when you borrow a book, the Button dissapears , right now it only dissapears on reload
   return (
     <div>
       <h1>Library page</h1>
-      {books &&
-        books.map((book) => (
-          <BookCard book={book} />
-        ))}
+      <form>
+        <SearchBar
+          searchTerm={term}
+          handleTermChange={(e) => handleChange(e)}
+        />
+      </form>
+      <Box sx={style}>
+        {filtered && filtered.map((book) => <BookCard book={book} />)}
+      </Box>
     </div>
   );
 };

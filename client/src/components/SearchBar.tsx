@@ -6,7 +6,7 @@ export default function SearchBar(props: SearchBarProps) {
     <div className="searchBar">
       <TextField
         type="text"
-        label="Country's name"
+        label="Book title"
         value={props.searchTerm}
         variant="filled"
         onChange={props.handleTermChange}

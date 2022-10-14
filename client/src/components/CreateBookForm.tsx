@@ -1,23 +1,9 @@
-import { Book, BookCardProps, bookStatus, UpdatedBook } from "types";
+import { Book, bookStatus, UpdatedBook } from "types";
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useAppDispatch } from "redux/hooks";
 import { createBookThunk } from "redux/slices/booksSlice";
-
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  height: '75%',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-  overflow: 'scroll'
-};
 
 const schema = z.object({
   ISBN: z.string(),
@@ -88,7 +74,7 @@ export default function CreateBookForm() {
       <label>publisher</label>
       <input {...register('publisher')} placeholder="Epic Books Publishing" />
       <label>Description</label>
-      <input {...register('description')} />
+      <input {...register('description')} placeholder="A next chapter in the saga of Foo and Bar..."/>
       <input type="submit" />
     </form>
   );

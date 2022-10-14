@@ -10,6 +10,8 @@ import { bookStatus } from "types";
 import { borrowBooksThunk } from "redux/slices/usersSlice";
 import Button from "@mui/material/Button";
 import BookCard from "components/BookCard";
+import { Box } from "@mui/material";
+import {style} from "./Home";
 
 const AvailableBooks = () => {
   const books = useSelector((state: RootState) => state.books.availableItems);
@@ -22,37 +24,39 @@ const AvailableBooks = () => {
   return (
     <div>
       <h1>Books available for renting</h1>
-      {books &&
-        books.map((book) => (
-          <div className="bookCard">
-            <BookCard book={book} />
-            {book.borrowStatus === bookStatus.available && user._id && (
-              <Button
-                onClick={() => {
-                  dispatch(
-                    borrowBooksThunk({
-                      userId: user._id,
-                      updatedUser: {
-                        borrowedBooks: [book._id],
-                      },
-                    })
-                  );
-                  dispatch(
-                    addBorrowerThunk({
-                      bookId: book._id,
-                      updatedBook: {
-                        borrowerID: user._id,
-                        borrowStatus: bookStatus.borrowed,
-                      },
-                    })
-                  );
-                }}
-              >
-                borrow
-              </Button>
-            )}
-          </div>
-        ))}
+      <Box sx={style}>
+        {books &&
+          books.map((book) => (
+            <div className="bookCard">
+              <BookCard book={book} />
+              {book.borrowStatus === bookStatus.available && user._id && (
+                <Button
+                  onClick={() => {
+                    dispatch(
+                      borrowBooksThunk({
+                        userId: user._id,
+                        updatedUser: {
+                          borrowedBooks: [book._id],
+                        },
+                      })
+                    );
+                    dispatch(
+                      addBorrowerThunk({
+                        bookId: book._id,
+                        updatedBook: {
+                          borrowerID: user._id,
+                          borrowStatus: bookStatus.borrowed,
+                        },
+                      })
+                    );
+                  }}
+                >
+                  borrow
+                </Button>
+              )}
+            </div>
+          ))}
+      </Box>
     </div>
   );
 };
