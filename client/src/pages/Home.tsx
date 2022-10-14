@@ -29,7 +29,8 @@ const Home = () => {
   filtered = filtered.filter(
     (b) =>
       b.name.toLowerCase().includes(term.toLowerCase()) ||
-      b.author.toString().toLowerCase().includes(term.toLowerCase())
+      b.author.toString().toLowerCase().includes(term.toLowerCase()) ||
+      b.description.toLowerCase().includes(term.toLowerCase())
   );
   //TODO: when you borrow a book, the Button dissapears , right now it only dissapears on reload
   return (
