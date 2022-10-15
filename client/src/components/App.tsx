@@ -3,10 +3,6 @@ import Home from "pages/Home";
 import AvailableBooks from "pages/AvailableBooks";
 import Header from "./NavBar";
 import { Link } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
-import { useState } from "react";
-import { signIn } from "redux/slices/usersSlice";
-import { useAppDispatch } from "redux/hooks";
 import { useSelector } from "react-redux"
 import BorrowedBooks from "pages/BorrowedBooks";
 import { RootState } from "redux/store"
@@ -15,9 +11,6 @@ import Login from "pages/Login";
 import Dashboard from "pages/Dashboard";
 
 const App = () => {
-	const [displayLogin, setDisplayLogin] = useState(true);
-	const dispatch = useAppDispatch();
-
 	const user = useSelector((state: RootState) => state.users.loggedIn)
 	return (
 		<BrowserRouter>

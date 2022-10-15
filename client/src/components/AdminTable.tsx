@@ -160,6 +160,7 @@ export default function AdminTable(props: TableProps) {
           </Box>
         </Modal>
       </div>
+      <h2>Create a new book</h2>
       <CreateBookForm />
     </div>
   );

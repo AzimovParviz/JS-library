@@ -24,6 +24,12 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
+const style = {
+  width: 300,
+  minHeight: 400,
+  margin: "5px",
+};
+
 export default function BookCard(book: BookCardProps) {
   const [expanded, setExpanded] = useState(false);
 
@@ -31,7 +37,7 @@ export default function BookCard(book: BookCardProps) {
     setExpanded(!expanded);
   };
   return (
-    <Card sx={{ width: 300, minHeight: 400, margin: "5px" }}>
+    <Card sx={style}>
       <CardHeader title={book.book.name} subheader={book.book.author} />
       <CardMedia
         component="img"
@@ -51,7 +57,9 @@ export default function BookCard(book: BookCardProps) {
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-	      <Typography sx={{margin: '5px', textAlign: 'center'}}>{book.book.description}</Typography>
+        <Typography sx={{ margin: "5px", textAlign: "center" }}>
+          {book.book.description}
+        </Typography>
       </Collapse>
     </Card>
   );

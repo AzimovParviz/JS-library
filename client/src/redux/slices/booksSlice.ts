@@ -77,7 +77,7 @@ export const deleteBookThunk = createAsyncThunk(
 );
 
 export const addBorrowerThunk = createAsyncThunk(
-	"books/borrower",
+	"books/addborrower",
 	async (updatedBook: PutType) => {
 		const data = await bookService.addBorrower(updatedBook);
 		return data;
@@ -85,7 +85,7 @@ export const addBorrowerThunk = createAsyncThunk(
 );
 
 export const removeBorrowerThunk = createAsyncThunk(
-	"books/borrower",
+	"books/removeborrower",
 	async (updatedBook: PutType) => {
 		const data = await bookService.removeBorrower(updatedBook);
 		return data;
@@ -118,7 +118,7 @@ export const booksSlice = createSlice({
 		//TODO: add error for fetchBooks
 		builder.addCase(
 			fetchBooksThunk.rejected,
-			(state: BooksState, error) => {
+			(error) => {
 				console.log(error);
 			}
 		);
@@ -146,13 +146,13 @@ export const booksSlice = createSlice({
 		);
 		builder.addCase(
 			fetchAvailableBooksThunk.rejected,
-			(state: BooksState, error) => {
+			(error) => {
 				console.log(error);
 			}
 		);
 		builder.addCase(
 			fetchBorrowedBooksThunk.pending,
-			(state: BooksState) => {}
+			() => {}
 		);
 		builder.addCase(
 			fetchBorrowedBooksThunk.fulfilled,
@@ -162,7 +162,7 @@ export const booksSlice = createSlice({
 		);
 		builder.addCase(
 			fetchBorrowedBooksThunk.rejected,
-			(state: BooksState, error) => {
+			(error) => {
 				console.log(
 					"cannot fetch borrowed books",
 					error
@@ -171,7 +171,7 @@ export const booksSlice = createSlice({
 		);
 		builder.addCase(
 			fetchBookThunk.pending,
-			(state: BooksState) => {}
+			() => {}
 		);
 		builder.addCase(
 			fetchBookThunk.fulfilled,
@@ -181,13 +181,13 @@ export const booksSlice = createSlice({
 		);
 		builder.addCase(
 			fetchBookThunk.rejected,
-			(state: BooksState, error) => {
+			(error) => {
 				console.log(error);
 			}
 		);
 		builder.addCase(
 			createBookThunk.pending,
-			(state: BooksState) => {}
+			() => {}
 		);
 		builder.addCase(
 			createBookThunk.fulfilled,
@@ -200,23 +200,23 @@ export const booksSlice = createSlice({
 		);
 		builder.addCase(
 			createBookThunk.rejected,
-			(state: BooksState, error) => {
+			(error) => {
 				console.log(error);
 			}
 		);
 		builder.addCase(
 			updateBookThunk.pending,
-			(state: BooksState) => {}
+			() => {}
 		);
 		builder.addCase(
 			updateBookThunk.rejected,
-			(state: BooksState, error) => {
+			(error) => {
 				console.log(error);
 			}
 		);
 		builder.addCase(
 			deleteBookThunk.pending,
-			(state: BooksState) => {}
+			() => {}
 		);
 		builder.addCase(
 			deleteBookThunk.fulfilled,
@@ -229,13 +229,13 @@ export const booksSlice = createSlice({
 		);
 		builder.addCase(
 			deleteBookThunk.rejected,
-			(state: BooksState, error) => {
+			(error) => {
 				console.log(error);
 			}
 		);
 		builder.addCase(
 			addBorrowerThunk.pending,
-			(state: BooksState) => {}
+			() => {}
 		);
 		builder.addCase(
 			addBorrowerThunk.fulfilled,
@@ -244,6 +244,8 @@ export const booksSlice = createSlice({
 					...state.borrowedItems,
 					action.payload.data,
 				];
+				state.availableItems.splice(state.availableItems.findIndex((item)=> item._id === action.payload.data._id),1)
+				console.log('current availableItems', state.availableItems)
 				console.log(
 					"books borrowed",
 					action.payload.data
@@ -252,7 +254,32 @@ export const booksSlice = createSlice({
 		);
 		builder.addCase(
 			addBorrowerThunk.rejected,
-			(state: BooksState, error) => {
+			(error) => {
+				console.log(error);
+			}
+		);
+		builder.addCase(
+			removeBorrowerThunk.pending,
+			() => {}
+		);
+		builder.addCase(
+			removeBorrowerThunk.fulfilled,
+			(state: BooksState, action) => {
+				state.availableItems = [
+					...state.availableItems,
+					action.payload.data,
+				];
+				state.borrowedItems.splice(state.borrowedItems.findIndex((item)=> item._id === action.payload.data._id),1)
+				console.log('current availableItems', state.availableItems)
+				console.log(
+					"books borrowed",
+					action.payload.data
+				);
+			}
+		);
+		builder.addCase(
+			removeBorrowerThunk.rejected,
+			(error) => {
 				console.log(error);
 			}
 		);
