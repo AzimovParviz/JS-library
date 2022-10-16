@@ -10,7 +10,7 @@ export type BookDocument = Document & {
   publishedYear: number
   genres: string[]
   ISBN: string
-  author: string[]
+  author: mongoose.Schema.Types.ObjectId[]
   publisher: string
   description: string
   imageUrl: string
@@ -40,8 +40,9 @@ const bookSchema = new mongoose.Schema({
     required: true,
   },
   author: {
-    type: [String],
+    type: [mongoose.Schema.Types.ObjectId],
     required: true,
+    ref: 'Author',
   },
   publisher: {
     type: String,

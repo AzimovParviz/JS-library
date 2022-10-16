@@ -10,6 +10,7 @@ import apiContentType from './middlewares/apiContentType'
 import bookRouter from './routers/book.router'
 import userRouter from './routers/user.router'
 import loginRouter from './routers/login.router'
+import authorRouter from './routers/author.router'
 
 dotenv.config({ path: '.env' })
 const app = express()
@@ -32,6 +33,8 @@ app.use('/covers/', express.static('covers'))
 app.use('/api/v1/books', bookRouter)
 
 app.use('/api/v1/users', userRouter)
+
+app.use('/api/v1/authors', authorRouter)
 
 app.use('/api/v1/login', loginRouter)
 // Custom API error handler

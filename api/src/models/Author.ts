@@ -1,23 +1,22 @@
 import mongoose, { Document } from 'mongoose'
 
 export type AuthorDocument = Document & {
-  firstName: string
-  lastName: string
+  name: string
+  pseudonyms: string[]
   books: mongoose.Schema.Types.ObjectId[]
 }
 
 const authorSchema = new mongoose.Schema({
-  firstName: {
+  name: {
     type: String,
     required: true,
   },
-  lastName: {
-    type: String,
-    index: true,
-  },
+  pseudonyms: [String],
   books: {
     type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Book',
   },
 })
 
-export default mongoose.model<AuthorDocument>('Book', authorSchema)
+export default mongoose.models['Author'] ||
+  mongoose.model('Author', authorSchema)

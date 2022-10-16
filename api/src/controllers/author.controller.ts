@@ -11,13 +11,12 @@ export const createAuthor = async (
   next: NextFunction
 ) => {
   try {
-    const { firstName, lastName, email, isAdmin } = req.body
+    const { name, books, pseudonyms } = req.body
 
     const author = new Author({
-      firstName,
-      lastName,
-      email,
-      isAdmin,
+      name,
+      books,
+      pseudonyms,
     })
 
     await authorService.create(author)

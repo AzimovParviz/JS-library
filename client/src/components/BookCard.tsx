@@ -9,6 +9,8 @@ import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
 import { Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "redux/store";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -32,13 +34,18 @@ const style = {
 
 export default function BookCard(book: BookCardProps) {
   const [expanded, setExpanded] = useState(false);
-
+  const authors = useSelector((state: RootState) => state.authors.allAuthors);
+  console.log(authors);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  //TODO: ask Yazan or someone how to implement author name
   return (
     <Card sx={style}>
-      <CardHeader title={book.book.name} subheader={book.book.author} />
+      <CardHeader
+        title={book.book.name}
+        subheader={authors.find((author) => author._id === book.book._id)?.name}
+      />
       <CardMedia
         component="img"
         height="194"

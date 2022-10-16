@@ -6,6 +6,7 @@ import { fetchBooksThunk } from "redux/slices/booksSlice";
 import BookCard from "components/BookCard";
 import Box from "@mui/material/Box";
 import SearchBar from "components/SearchBar";
+import {fetchAuthorsThunk} from "redux/slices/authorsSlice";
 
 export const style = {
   display: "flex",
@@ -19,18 +20,20 @@ const Home = () => {
   const [term, setTerm] = useState("");
   useEffect(() => {
     dispatch(fetchBooksThunk());
+    dispatch(fetchAuthorsThunk())
   }, [dispatch]);
   const handleChange = (e: any) => {
     setTerm((e.target as HTMLInputElement).value);
   };
 
   const books = useSelector((state: RootState) => state.books.items);
+  const authors = useSelector((state: RootState) => state.authors.allAuthors);
   let filtered = books;
   filtered = filtered.filter(
     (b) =>
       b.name.toLowerCase().includes(term.toLowerCase()) ||
-      b.author.toString().toLowerCase().includes(term.toLowerCase()) ||
-      b.description.toLowerCase().includes(term.toLowerCase())
+      b.author?.toString().toLowerCase().includes(term.toLowerCase()) ||
+      b.description?.toLowerCase().includes(term.toLowerCase())
   );
   //TODO: when you borrow a book, the Button dissapears , right now it only dissapears on reload
   return (

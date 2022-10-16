@@ -13,9 +13,9 @@ const router = express.Router()
 
 // Every path we define here will get /api/v1/Authors prefix
 router.get('/', authCheck, findAll)
-router.get('/:AuthorId', authCheck, findById)
-router.put('/:AuthorId', authCheck, updateAuthor)
-router.delete('/:AuthorId', authCheck, deleteAuthor)
-router.post('/create', authCheck, createAuthor)
+router.get('/:authorId', authCheck, findById)
+router.put('/:authorId', authCheck, updateAuthor)
+router.delete('/:authorId', authCheck, deleteAuthor)
+router.post('/', authCheck, createAuthor)
 
 export default router

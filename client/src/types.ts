@@ -65,3 +65,21 @@ export interface UsersState {
 	singleUser: User;
 	isLoading: boolean;
 }
+
+export type Author = {
+	_id: string;
+	name: string;
+	books: string[]
+};
+
+export type UpdatedAuthor = Partial<Author>;
+
+export type AuthorPutType = {
+	authorId: string;
+	updatedAuthor: UpdatedAuthor;
+};
+
+export interface AuthorsState {
+	allAuthors: Author[];
+	isLoading: boolean;
+}
