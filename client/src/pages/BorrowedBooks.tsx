@@ -12,14 +12,17 @@ import Button from "@mui/material/Button";
 import BookCard from "components/BookCard";
 import Box from "@mui/material/Box";
 import { style } from "./Home";
+import { fetchAuthorsThunk } from "redux/slices/authorsSlice";
 
 const BorrowedBooks = () => {
   const books = useSelector((state: RootState) => state.books.borrowedItems);
   const user = useSelector((state: RootState) => state.users.loggedIn);
+  const authors = useSelector((state: RootState) => state.authors.allAuthors);
   console.log("logged in user", user);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchBorrowedBooksThunk(user._id));
+    dispatch(fetchAuthorsThunk());
   }, [dispatch]);
   return (
     <div>
@@ -30,7 +33,12 @@ const BorrowedBooks = () => {
           books.map((book) => (
             <div className="bookCard" key={book._id}>
               {" "}
-              <BookCard book={book} />
+              <BookCard
+                book={book}
+                author={authors.find((author) =>
+                  author.books.includes(book._id)
+                )}
+              />
               {book.borrowStatus === bookStatus.borrowed && user._id && (
                 <Button
                   onClick={() => {

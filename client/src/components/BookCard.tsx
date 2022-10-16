@@ -34,8 +34,6 @@ const style = {
 
 export default function BookCard(book: BookCardProps) {
   const [expanded, setExpanded] = useState(false);
-  const authors = useSelector((state: RootState) => state.authors.allAuthors);
-  console.log(authors);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -44,7 +42,7 @@ export default function BookCard(book: BookCardProps) {
     <Card sx={style}>
       <CardHeader
         title={book.book.name}
-        subheader={authors.find((author) => author._id === book.book._id)?.name}
+	subheader={book.author?.name}
       />
       <CardMedia
         component="img"
