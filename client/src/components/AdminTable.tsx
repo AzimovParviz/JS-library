@@ -14,11 +14,9 @@ import { bookStatus, User } from "types";
 import { Book } from "types";
 import { useState } from "react";
 import CreateBookForm from "./CreateBookForm";
-
-type TableProps = {
-  books: Book[];
-  users: User[];
-};
+import {useSelector} from "react-redux";
+import {RootState} from "redux/store";
+import getAuthor from "utils/utils";
 
 const style = {
   position: "absolute" as "absolute",
@@ -34,9 +32,10 @@ const style = {
   overflow: "scroll",
 };
 
-export default function AdminTable(props: TableProps) {
-  const books = props.books;
-  const users = props.users;
+export default function AdminTable() {
+  const books = useSelector((state: RootState) => state.books.borrowedItems);
+  const users = useSelector((state: RootState) => state.users.allUsers);
+  const authors = useSelector((state: RootState) => state.authors.allAuthors);
   const [openbooks, setOpenbooks] = useState(false);
   const [openusers, setOpenusers] = useState(false);
   const [openEditBook, setEditBook] = useState(false);
@@ -88,9 +87,7 @@ export default function AdminTable(props: TableProps) {
                         <TableCell>{book.name}</TableCell>
                         <TableCell>{book.ISBN}</TableCell>
                         <TableCell>{book.description}</TableCell>
-                        <TableCell>
-                          {book.author.map((author) => author)}
-                        </TableCell>
+                        <TableCell>{getAuthor(authors, book)?.name}</TableCell>
                         <TableCell>{book.borrowStatus}</TableCell>
                         <TableCell>
                           {book.borrowStatus === bookStatus.borrowed

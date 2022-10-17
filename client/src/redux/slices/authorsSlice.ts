@@ -74,7 +74,7 @@ export const authorsSlice = createSlice({
     });
     builder.addCase(
       fetchAuthorThunk.fulfilled,
-      (state: AuthorsState, action) => {
+      (state: AuthorsState) => {
         state.isLoading = false;
       }
     );

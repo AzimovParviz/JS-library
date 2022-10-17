@@ -9,9 +9,6 @@ import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
 import { Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import { RootState } from "redux/store";
-
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }

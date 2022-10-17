@@ -13,6 +13,7 @@ import BookCard from "components/BookCard";
 import { Box } from "@mui/material";
 import { style } from "./Home";
 import { fetchAuthorsThunk } from "redux/slices/authorsSlice";
+import getAuthor from "utils/utils";
 
 const AvailableBooks = () => {
   const books = useSelector((state: RootState) => state.books.availableItems);
@@ -30,12 +31,7 @@ const AvailableBooks = () => {
         {books &&
           books.map((book) => (
             <div className="bookCard">
-              <BookCard
-                book={book}
-                author={authors.find((author) =>
-                  author.books.includes(book._id)
-                )}
-              />
+              <BookCard book={book} author={getAuthor(authors, book)} />
               {book.borrowStatus === bookStatus.available && user._id && (
                 <Button
                   onClick={() => {

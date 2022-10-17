@@ -7,6 +7,7 @@ import BookCard from "components/BookCard";
 import Box from "@mui/material/Box";
 import SearchBar from "components/SearchBar";
 import {fetchAuthorsThunk} from "redux/slices/authorsSlice";
+import getAuthor from "utils/utils";
 
 export const style = {
   display: "flex",
@@ -46,7 +47,7 @@ const Home = () => {
         />
       </form>
       <Box sx={style}>
-	      {filtered && filtered.map((book) => <BookCard book={book} author={authors.find(author => author.books.includes(book._id))}/>)}
+	      {filtered && filtered.map((book) => <BookCard book={book} author={getAuthor(authors, book)}/>)}
       </Box>
     </div>
   );

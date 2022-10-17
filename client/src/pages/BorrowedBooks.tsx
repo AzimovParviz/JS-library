@@ -13,6 +13,7 @@ import BookCard from "components/BookCard";
 import Box from "@mui/material/Box";
 import { style } from "./Home";
 import { fetchAuthorsThunk } from "redux/slices/authorsSlice";
+import getAuthor from "utils/utils";
 
 const BorrowedBooks = () => {
   const books = useSelector((state: RootState) => state.books.borrowedItems);
@@ -33,12 +34,7 @@ const BorrowedBooks = () => {
           books.map((book) => (
             <div className="bookCard" key={book._id}>
               {" "}
-              <BookCard
-                book={book}
-                author={authors.find((author) =>
-                  author.books.includes(book._id)
-                )}
-              />
+              <BookCard book={book} author={getAuthor(authors, book)} />
               {book.borrowStatus === bookStatus.borrowed && user._id && (
                 <Button
                   onClick={() => {
