@@ -1,26 +1,27 @@
-import { bookStatus, UpdateBookFormProps, PutType, UpdatedBook } from "types";
+import { UpdateBookFormProps, PutType, UpdatedBook } from "types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useAppDispatch } from "redux/hooks";
 import { updateBookThunk } from "redux/slices/booksSlice";
+import TextField from "@mui/material/TextField";
 
 const schema = z.object({
   ISBN: z.string(),
   name: z.string(),
   description: z.string(),
   publisher: z.string(),
-	//publishedYear: z.number(),
+  //publishedYear: z.number(),
   //author: z,
   imageUrl: z.string(),
-	//borrowerID: z.string(),
-	//borrowDate: z.date(),
-	//returnDate: z.date(),
+  //borrowerID: z.string(),
+  //borrowDate: z.date(),
+  //returnDate: z.date(),
   //genres: [""],
-	//borrowStatus: z.enum([bookStatus.available, bookStatus.borrowed]),
+  //borrowStatus: z.enum([bookStatus.available, bookStatus.borrowed]),
 });
 
-export default function UpdateBookForm({bookToEdit}: UpdateBookFormProps) {
+export default function UpdateBookForm({ bookToEdit }: UpdateBookFormProps) {
   const dispatch = useAppDispatch();
   const {
     register,
@@ -46,6 +47,10 @@ export default function UpdateBookForm({bookToEdit}: UpdateBookFormProps) {
         e.preventDefault();
         onSubmit();
       }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+      }}
     >
       {errorsValues.length > 0 && (
         <fieldset>
@@ -64,20 +69,23 @@ export default function UpdateBookForm({bookToEdit}: UpdateBookFormProps) {
       )}
 
       <label>ISBN</label>
-      <input {...register("ISBN")} placeholder={bookToEdit.ISBN} />
+      <TextField {...register("ISBN")} placeholder={bookToEdit.ISBN} />
 
       <label>title</label>
-      <input {...register("name")} placeholder={bookToEdit.name} />
+      <TextField {...register("name")} placeholder={bookToEdit.name} />
       <label>publisher</label>
-      <input {...register("publisher")} placeholder={bookToEdit.publisher} />
+      <TextField
+        {...register("publisher")}
+        placeholder={bookToEdit.publisher}
+      />
       <label>Description</label>
-      <input
+      <TextField
         {...register("description")}
         placeholder={bookToEdit.description}
       />
-            <input type="submit" />
       <label>Cover image</label>
-      <input {...register("imageUrl")} placeholder={bookToEdit.imageUrl} />
+      <TextField {...register("imageUrl")} placeholder={bookToEdit.imageUrl} />
+      <input type="submit" />
     </form>
   );
 }

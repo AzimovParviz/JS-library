@@ -48,30 +48,33 @@ export default function AdminTable() {
   const [bookToDelete, setBookToDelete] = useState(books[0]);
   const [openEditBook, setEditBook] = useState(false);
   const [bookToEdit, setBookToEdit] = useState(books[0]);
-  const handleBooksOpen = () => setOpenbooks(true);
-  const handleBooksClose = () => setOpenbooks(false);
-  const handleUsersOpen = () => setOpenusers(true);
-  const handleUsersClose = () => setOpenusers(false);
-  const handleBookDeleteOpen = () => setDeleteBook(true);
-  const handleBookDeleteClose = () => setDeleteBook(false);
-  const handleBookEditOpen = () => setEditBook(true);
-  const handleBookEditClose = () => setEditBook(false);
-
+  const handleOpen = (who: string, type: string) => {
+    if (who === "users" && type === "view") setOpenusers(true);
+    if (who === "books" && type === "view") setOpenbooks(true);
+    if (who === "books" && type === "delete") setDeleteBook(true);
+    if (who === "books" && type === "edit") setEditBook(true);
+  };
+  const handleClose = (who: string, type: string) => {
+    if (who === "users" && type === "view") setOpenusers(false);
+    if (who === "books" && type === "view") setOpenbooks(false);
+    if (who === "books" && type === "delete") setDeleteBook(false);
+    if (who === "books" && type === "edit") setEditBook(false);
+  };
   return (
     <div>
       <Dialog
         open={openDeleteBook}
-        onClose={handleBookDeleteClose}
+        onClose={() => handleClose("books", "delete")}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <p>Are you sure you want to permamently delete this book?</p>
         <DialogActions>
-          <Button onClick={handleBookDeleteClose}>Cancel</Button>
+          <Button onClick={() => handleClose("books", "delete")}>Cancel</Button>
           <Button
             onClick={() => {
               dispatch(deleteBookThunk(bookToDelete._id));
-              handleBookDeleteClose();
+              handleClose("books", "delete");
             }}
           >
             Yes
@@ -80,17 +83,28 @@ export default function AdminTable() {
       </Dialog>
       <Modal
         open={openEditBook}
-        onClose={handleBookEditClose}
+        onClose={() => handleClose("books", "edit")}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <UpdateBookForm bookToEdit={bookToEdit} />
+        <Box
+          sx={{
+            backgroundColor: "white",
+            width: "70%",
+            top: "50%",
+            margin: "auto",
+          }}
+        >
+          <UpdateBookForm bookToEdit={bookToEdit} />
+        </Box>
       </Modal>
       <div>
-        <Button onClick={handleBooksOpen}>Open books table</Button>
+        <Button onClick={() => handleOpen("books", "view")}>
+          Open books table
+        </Button>
         <Modal
           open={openbooks}
-          onClose={handleBooksClose}
+          onClose={() => handleClose("books", "view")}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -128,7 +142,7 @@ export default function AdminTable() {
                         <Button
                           onClick={() => {
                             setBookToEdit(book);
-                            handleBookEditOpen();
+                            handleOpen("books", "edit");
                           }}
                         >
                           EDIT
@@ -138,7 +152,7 @@ export default function AdminTable() {
                         <Button
                           onClick={() => {
                             setBookToDelete(book);
-                            handleBookDeleteOpen();
+                            handleOpen("books", "delete");
                           }}
                         >
                           DELETE
@@ -153,10 +167,12 @@ export default function AdminTable() {
         </Modal>
       </div>
       <div>
-        <Button onClick={handleUsersOpen}>Open users table</Button>
+        <Button onClick={() => handleOpen("users", "view")}>
+          Open users table
+        </Button>
         <Modal
           open={openusers}
-          onClose={handleUsersClose}
+          onClose={() => handleClose("users", "view")}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
