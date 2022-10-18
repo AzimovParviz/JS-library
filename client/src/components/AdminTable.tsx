@@ -6,6 +6,8 @@ import {
   Table,
   TableHead,
   TableBody,
+  Dialog,
+  DialogActions,
 } from "@mui/material/";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -14,9 +16,12 @@ import { bookStatus, User } from "types";
 import { Book } from "types";
 import { useState } from "react";
 import CreateBookForm from "./CreateBookForm";
-import {useSelector} from "react-redux";
-import {RootState} from "redux/store";
+import { useSelector } from "react-redux";
+import { RootState } from "redux/store";
 import getAuthor from "utils/utils";
+import { useAppDispatch } from "redux/hooks";
+import UpdateBookForm from "./UpdateBookForm";
+import { deleteBookThunk } from "redux/slices/booksSlice";
 
 const style = {
   position: "absolute" as "absolute",
@@ -33,28 +38,53 @@ const style = {
 };
 
 export default function AdminTable() {
-  const books = useSelector((state: RootState) => state.books.borrowedItems);
+  const books = useSelector((state: RootState) => state.books.items);
   const users = useSelector((state: RootState) => state.users.allUsers);
   const authors = useSelector((state: RootState) => state.authors.allAuthors);
+  const dispatch = useAppDispatch();
   const [openbooks, setOpenbooks] = useState(false);
   const [openusers, setOpenusers] = useState(false);
+  const [openDeleteBook, setDeleteBook] = useState(false);
+  const [bookToDelete, setBookToDelete] = useState(books[0]);
   const [openEditBook, setEditBook] = useState(false);
   const [bookToEdit, setBookToEdit] = useState(books[0]);
   const handleBooksOpen = () => setOpenbooks(true);
   const handleBooksClose = () => setOpenbooks(false);
   const handleUsersOpen = () => setOpenusers(true);
   const handleUsersClose = () => setOpenusers(false);
+  const handleBookDeleteOpen = () => setDeleteBook(true);
+  const handleBookDeleteClose = () => setDeleteBook(false);
   const handleBookEditOpen = () => setEditBook(true);
   const handleBookEditClose = () => setEditBook(false);
+
   return (
     <div>
+      <Dialog
+        open={openDeleteBook}
+        onClose={handleBookDeleteClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <p>Are you sure you want to permamently delete this book?</p>
+        <DialogActions>
+          <Button onClick={handleBookDeleteClose}>Cancel</Button>
+          <Button
+            onClick={() => {
+              dispatch(deleteBookThunk(bookToDelete._id));
+              handleBookDeleteClose();
+            }}
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Modal
         open={openEditBook}
         onClose={handleBookEditClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <p> Editing will be available later</p>
+        <UpdateBookForm bookToEdit={bookToEdit} />
       </Modal>
       <div>
         <Button onClick={handleBooksOpen}>Open books table</Button>
@@ -80,34 +110,43 @@ export default function AdminTable() {
                     <TableCell>Borrower ID</TableCell>
                   </TableRow>
                 </TableHead>
-                {books && (
-                  <TableBody>
-                    {books.map((book: Book) => (
-                      <TableRow key={book._id}>
-                        <TableCell>{book.name}</TableCell>
-                        <TableCell>{book.ISBN}</TableCell>
-                        <TableCell>{book.description}</TableCell>
-                        <TableCell>{getAuthor(authors, book)?.name}</TableCell>
-                        <TableCell>{book.borrowStatus}</TableCell>
-                        <TableCell>
-                          {book.borrowStatus === bookStatus.borrowed
-                            ? book.borrowerID
-                            : "-"}
-                        </TableCell>
-                        <TableCell>
-                          <Button
-                            onClick={() => {
-                              setBookToEdit(book);
-                              handleBookEditOpen();
-                            }}
-                          >
-                            Edit
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                )}
+
+                <TableBody>
+                  {books.map((book: Book) => (
+                    <TableRow key={book._id}>
+                      <TableCell>{book.name}</TableCell>
+                      <TableCell>{book.ISBN}</TableCell>
+                      <TableCell>{book.description}</TableCell>
+                      <TableCell>{getAuthor(authors, book)?.name}</TableCell>
+                      <TableCell>{book.borrowStatus}</TableCell>
+                      <TableCell>
+                        {book.borrowStatus === bookStatus.borrowed
+                          ? book.borrowerID
+                          : "-"}
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={() => {
+                            setBookToEdit(book);
+                            handleBookEditOpen();
+                          }}
+                        >
+                          EDIT
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={() => {
+                            setBookToDelete(book);
+                            handleBookDeleteOpen();
+                          }}
+                        >
+                          DELETE
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
               </Table>
             </TableContainer>
           </Box>

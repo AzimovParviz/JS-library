@@ -102,7 +102,11 @@ export default {
   },
   deleteOne: async (bookId: string) => {
     try {
-      const res = await axios.delete(`${URL}/${bookId}`);
+      const res = await axios.delete(`${URL}/${bookId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       return {
         data: bookId,

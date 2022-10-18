@@ -14,6 +14,10 @@ export type BookCardProps = {
   author: Author | undefined;
 };
 
+export type UpdateBookFormProps = {
+  bookToEdit: Book;
+};
+
 export type Book = {
   _id: string;
   name: string;

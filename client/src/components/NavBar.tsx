@@ -11,6 +11,7 @@ export default function Header({ children }: any) {
           flexGrow: 4,
           flexFlow: 'wrap',
           justifyContent: 'space-evenly',
+	  mr: 2
         }}
       >
         {children}
