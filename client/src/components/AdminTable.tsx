@@ -60,6 +60,7 @@ export default function AdminTable() {
     if (who === "books" && type === "delete") setDeleteBook(false);
     if (who === "books" && type === "edit") setEditBook(false);
   };
+
   return (
     <div>
       <Dialog

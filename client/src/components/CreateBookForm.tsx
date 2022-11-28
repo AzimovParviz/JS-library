@@ -5,16 +5,24 @@ import * as z from "zod";
 import { useAppDispatch } from "redux/hooks";
 import { createBookThunk } from "redux/slices/booksSlice";
 import TextField from "@mui/material/TextField";
+import { useSelector } from "react-redux";
+import { RootState } from "redux/store";
+import { MenuItem, Select } from "@mui/material";
 
 const schema = z.object({
   ISBN: z.string(),
   name: z.string(),
   description: z.string(),
   publisher: z.string(),
+  author: z.string(),
+  imageUrl: z.string().optional(),
+  genres: z.string(),
 });
 
 export default function CreateBookForm() {
   const dispatch = useAppDispatch();
+  const authors = useSelector((state: RootState) => state.authors.allAuthors);
+
   const {
     register,
     handleSubmit,
@@ -26,20 +34,22 @@ export default function CreateBookForm() {
   const errorsValues = Object.entries(errors);
 
   const onSubmit = handleSubmit((data) => {
+    //const bookGenres = data.genres!.split(',')
+    //const bookAuthors = data.author!.split(',')
     const book: Book = {
       ...data,
-      _id: "",
+      _id: "", //it gets auto generated anyways so just passing an empty string
       ISBN: data.ISBN!,
       name: data.name!,
       publisher: data.publisher!,
       publishedYear: 1,
-      author: [""],
-      imageUrl: "",
-      description: "",
-      borrowerID: "",
+      author: data.author!,
+      imageUrl: data.imageUrl!,
+      description: data.description!,
+      borrowerID: undefined,
       borrowDate: new Date(),
-      returnDate: new Date(),
-      genres: [""],
+      returnDate: new Date(Date.now() + 7),
+      genres: data.author!,
       borrowStatus: bookStatus.available,
     };
     dispatch(createBookThunk(book));
@@ -81,10 +91,28 @@ export default function CreateBookForm() {
         {...register("publisher")}
         placeholder="Epic Books Publishing"
       />
+      <label>Authors</label>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        label="Age"
+        {...register("author")}
+      >
+        {authors.map((a) => (
+          <MenuItem value={a._id}>{a.name}</MenuItem>
+        ))}
+      </Select>
       <label>Description</label>
       <TextField
         {...register("description")}
         placeholder="A next chapter in the saga of Foo and Bar..."
+      />
+      <label>Genres</label>
+      <TextField {...register("genres")} placeholder="Adventure, Romance" />
+      <label>Cover image URL</label>
+      <TextField
+        {...register("imageUrl")}
+        placeholder="http://localhost:4000/covers/cover2.jpg"
       />
       <input type="submit" />
     </form>

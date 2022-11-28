@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node src/server.ts",
-    "start:dev": "nodemon",
+    "start:dev": "npx nodemon",
     "build": "tsc",
     "watch-ts": "tsc -w",
     "test": "jest --watchAll --detectOpenHandles",

@@ -1,4 +1,4 @@
-import { TextField, MenuItem, Select } from '@mui/material'
+import { TextField } from '@mui/material'
 import {  SearchBarProps } from '../types'
 
 const style = {

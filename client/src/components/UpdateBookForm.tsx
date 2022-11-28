@@ -1,28 +1,35 @@
-import { UpdateBookFormProps, PutType, UpdatedBook } from "types";
+import { UpdateBookFormProps, PutType, UpdatedBook, bookStatus } from "types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useAppDispatch } from "redux/hooks";
 import { updateBookThunk } from "redux/slices/booksSlice";
 import TextField from "@mui/material/TextField";
+import { useState } from "react";
+import { MenuItem, Select } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "redux/store";
 
 const schema = z.object({
-  ISBN: z.string(),
-  name: z.string(),
-  description: z.string(),
-  publisher: z.string(),
-  //publishedYear: z.number(),
-  //author: z,
-  imageUrl: z.string(),
-  //borrowerID: z.string(),
-  //borrowDate: z.date(),
-  //returnDate: z.date(),
-  //genres: [""],
-  //borrowStatus: z.enum([bookStatus.available, bookStatus.borrowed]),
+  ISBN: z.string().optional(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  publisher: z.string().optional(),
+  publishedYear: z.number().optional(),
+  author: z.string(),
+  imageUrl: z.string().optional(),
+  borrowerID: z.string().optional(),
+  borrowDate: z.date().optional(),
+  returnDate: z.date().optional(),
+  genres: z.string().optional(),
+  borrowStatus: z.enum([bookStatus.available, bookStatus.borrowed]).optional(),
 });
 
 export default function UpdateBookForm({ bookToEdit }: UpdateBookFormProps) {
   const dispatch = useAppDispatch();
+  const [succ, setSucc] = useState(false);
+  const authors = useSelector((state: RootState) => state.authors.allAuthors);
+
   const {
     register,
     handleSubmit,
@@ -40,6 +47,7 @@ export default function UpdateBookForm({ bookToEdit }: UpdateBookFormProps) {
       updatedBook: data,
     };
     dispatch(updateBookThunk(book));
+    setSucc(true);
   });
   return (
     <form
@@ -67,12 +75,23 @@ export default function UpdateBookForm({ bookToEdit }: UpdateBookFormProps) {
           </ul>
         </fieldset>
       )}
-
+      {succ && <p style={{ color: "green" }}>Succesfully updated</p>}
       <label>ISBN</label>
       <TextField {...register("ISBN")} placeholder={bookToEdit.ISBN} />
 
       <label>title</label>
       <TextField {...register("name")} placeholder={bookToEdit.name} />
+      <label>Authors</label>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        label="Age"
+        {...register("author")}
+      >
+        {authors.map((a) => (
+          <MenuItem value={a._id}>{a.name}</MenuItem>
+        ))}
+      </Select>
       <label>publisher</label>
       <TextField
         {...register("publisher")}
