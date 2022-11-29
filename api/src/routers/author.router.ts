@@ -7,7 +7,7 @@ import {
   deleteAuthor,
   findAll,
   updateAuthor,
-} from '../controllers/Author.controller'
+} from '../controllers/author.controller'
 
 const router = express.Router()
 
