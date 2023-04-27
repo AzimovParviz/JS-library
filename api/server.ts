@@ -1,9 +1,9 @@
 import errorHandler from 'errorhandler'
 import mongoose from 'mongoose'
 
-import app from './app'
-import { MONGODB_URI } from './util/secrets'
-import logger from './util/logger'
+import app from './src/app'
+import { MONGODB_URI } from './src/util/secrets'
+import logger from './src/util/logger'
 
 const mongoUrl = MONGODB_URI
 
